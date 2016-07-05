@@ -13,7 +13,7 @@ var mongoStore = require('connect-mongo')(session);
 var csrf = require('csurf');
 
 var config = require('./config');
-var router = require('./routes/users');
+var router = require('./routes/routes');
 
 var app = express();
 
@@ -122,7 +122,7 @@ app.utility.redis = new ioredis();
 
 rawdata = require('./utils/rawdata/rawdata.js');
 //rawdata.start('mqtt_node_pek2.0x61.me', app.utility.redis);
-rawdata.start('mqtt.0x61.me', app.utility.redis);
+//rawdata.start('mqtt.0x61.me', app.utility.redis);
 
 app.listen(app.config.port, function() {
   console.log("listen", app.config.port);

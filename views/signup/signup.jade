@@ -1,18 +1,16 @@
-extends ../layout
+extends ./../layout/layout
 
 block head
   meta(name='description', content='linkgo.io web')
   meta(name='author', content='linkgo.io')
   title linkgo.io
 
-  link(rel='stylesheet', href='/views/signup/index.css')
-  link(rel='stylesheet', href='/vendor/semantic/semantic.css')
+  link(rel='stylesheet', href='/dist/vendors/semantic-ui/dist/semantic.css')
+  link(rel='stylesheet', href='/dist/views/signup/signup.css')
 
 block feet
-  script(src="/vendor/react/react.js")
-  script(src="/vendor/react-dom/react-dom.js")
-  script(src='/views/signup/index.min.js?#{cacheBreaker}')
+  script(src='/dist/views/signup/signup.js')
 
 block body
   div#signupForm
-  script(type="text/babel" src="/views/signup/index.js")
+  

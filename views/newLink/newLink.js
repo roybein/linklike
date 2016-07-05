@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var NewLink = require('./../../components/test');
+import NewLink from './../../components/test.jsx';
 
 var newLink = React.createElement(NewLink);
 

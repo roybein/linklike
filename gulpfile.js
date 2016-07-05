@@ -13,33 +13,46 @@ var del = require('del');
 var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var livereload = require('gulp-livereload');
+var less = require('gulp-less');
+var gutil = require('gulp-util');
 
 var env = {
   VIEWS: ['./views/*.jade', './views/**/*.jade'],
-  VENDORS: [
-    './AdminLTE/dist/**/**',
-    './AdminLTE/bootstrap/**/**',
-  ],
+  LESS: ['./views/*.less', './views/**/*.less'],
   DEST: 'dist',
   DEST_VIEWS: 'dist/views',
   DEST_VENDORS: 'dist/vendors',
   ENTRY_POINTS: [
     './views/newLink/newLink.js',
     './views/neuriteSensor/neuriteSensor.js',
+    './views/login/login.js',
+    './views/signup/signup.js',
   ],
 };
+
+gulp.task('less', function() {
+  gulp.src(env.LESS)
+    .pipe(less())
+    .pipe(gulp.dest('./dist/views/'));
+});
 
 gulp.task('copy', function(){
   gulp.src(env.VIEWS)
     .pipe(gulp.dest(env.DEST_VIEWS));
   gulp.src(['./AdminLTE/dist/**/**'])
-    .pipe(gulp.dest('./dist/vendors/AdminLTE'));
+    .pipe(gulp.dest('./dist/vendors/AdminLTE/dist'));
   gulp.src(['./AdminLTE/bootstrap/**/**'])
-    .pipe(gulp.dest('./dist/vendors/bootstrap'));
+    .pipe(gulp.dest('./dist/vendors/AdminLTE/bootstrap'));
+  gulp.src(['./AdminLTE/plugins/iCheck/square/blue.css'])
+    .pipe(gulp.dest('./dist/vendors/AdminLTE/plugins/iCheck/square/'));
   gulp.src(['./node_modules/jquery/dist/**'])
     .pipe(gulp.dest('./dist/vendors/jquery'));
   gulp.src(['./node_modules/jquery.cookie/jquery.cookie.js'])
     .pipe(gulp.dest('./dist/vendors/jquery.cookie'));
+  gulp.src(['./node_modules/bootstrap/dist/**/**'])
+    .pipe(gulp.dest('./dist/vendors/bootstrap/dist/'));
+  gulp.src(['./node_modules/semantic-ui/dist/**/**'])
+    .pipe(gulp.dest('./dist/vendors/semantic-ui/dist/'));
 });
 
 gulp.task('lint', function () {
@@ -50,7 +63,7 @@ gulp.task('lint', function () {
 gulp.task('develop', function () {
   nodemon({ script: './linkgoLab.js'
           , ext: 'js'
-          , ignore: ['./gulpfile.js', './dist/', './views/', './public/']
+          , ignore: ['gulpfile.js', './dist/', './views/', './public/', './components/']
           , tasks: ['lint'] })
     .on('restart', function () {
       console.log('restarted!')
@@ -75,11 +88,15 @@ gulp.task('watch', function() {
     function bundle() {
       //var name = path.basename(e);
       var name = e;
-      console.log("bundle");
       b.transform("babelify", {presets: ["es2015", "react"]})
-      .bundle()
+      .bundle().on('error', function(err) {
+        gutil.log("Browserify Error", gutil.colors.yellow(err.message));
+        this.emit('end');
+      })
       .pipe(source(name))
-      .pipe(gulp.dest(env.DEST))
+      .pipe(gulp.dest(env.DEST));
+
+      console.log("bundled", name);
     }
   });
 });
@@ -97,12 +114,13 @@ gulp.task('build', function() {
     function bundle() {
       //var name = path.basename(e, '.js') + '.min.js';
       var name = e;
-      console.log("bundle", name);
       b.transform("babelify", {presets: ["es2015", "react"]})
       .bundle()
       .pipe(source(name))
       .pipe(streamify(uglify()))
-      .pipe(gulp.dest(env.DEST))
+      .pipe(gulp.dest(env.DEST));
+
+      console.log("bundled", name);
     }
   });
 });
@@ -113,4 +131,4 @@ gulp.task('clean', function() {
   });
 });
 
-gulp.task('default', ['copy', 'watch', 'develop']);
+gulp.task('default', ['less', 'copy', 'watch', 'develop']);
