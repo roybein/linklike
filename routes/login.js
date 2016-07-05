@@ -16,7 +16,7 @@ exports.init = function(req, res){
     res.redirect(getReturnUrl(req));
   }
   else {
-    res.render('login/index', {
+    res.render('login/login', {
       oauthMessage: '',
       oauthTwitter: !!req.app.config.oauth.twitter.key,
       oauthGitHub: !!req.app.config.oauth.github.key,
