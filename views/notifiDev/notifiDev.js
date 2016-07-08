@@ -6,8 +6,8 @@ import { createStore } from 'redux'
 
 import {getAllNotifis} from './../../actions/notifs'
 import notifiStore from './../../reducers/notifiStore'
-import NotifiList from './../../containers/NotifiList'
-import NewLink from './../../containers/test'
+import NotifiListWrap from './../../containers/NotifiListWrap'
+import NotifiList from './../../components/NotifiList'
 import Notifi from './../../components/Notifi'
 
 let store = createStore(notifiStore)
@@ -16,7 +16,10 @@ store.dispatch(getAllNotifis())
 
 render(
   <Provider store={store}>
-    <NotifiList />
+    <NotifiListWrap />
+{/*
+    <NotifiList notifis={[{'id': 1, 'text': 'notifi one'}, {'id': 2, 'text': 'notifi two'}]} />
+*/}
   </Provider>,
   document.getElementById('notifiList')
 )

@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react'
 
 const Notifi = ({ text }) => (
-  <div>
+  <li>
     {text}
-  </div>
+  </li>
 )
 
 Notifi.propTypes = {
