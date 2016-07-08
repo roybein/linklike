@@ -12,6 +12,7 @@ router.post('/login/', require('./login').login);
 router.get('/signup/', require('./signup').init);
 router.post('/signup/', require('./signup').signup);
 router.get('/logout', require('./logout').init);
+router.get('/notifiDev', require('./notifiDev').get);
 
 router.post('/data/', require('./data').fetch);
 

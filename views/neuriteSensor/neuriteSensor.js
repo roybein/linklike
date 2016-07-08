@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import NeuriteSensor from './../../components/neuriteSensor.jsx';
+import NeuriteSensor from './../../containers/neuriteSensor';
 
 var neuriteSensor = React.createElement(NeuriteSensor);
 

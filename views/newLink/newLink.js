@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import NewLink from './../../components/test.jsx';
+import NewLink from './../../containers/test';
 
 var newLink = React.createElement(NewLink);
 

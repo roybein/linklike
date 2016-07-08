@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignupForm from './../../components/signupForm.jsx';
+import SignupForm from './../../containers/signupForm';
 
 var signupForm = React.createElement(SignupForm);
 

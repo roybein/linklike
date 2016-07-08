@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginForm from './../../components/loginForm.jsx';
+import LoginForm from './../../containers/loginForm';
 
-var loginForm = React.createElement(LoginForm);
+//var loginForm = React.createElement(LoginForm);
 
 ReactDOM.render(
-  loginForm,
+  <LoginForm />,
   document.getElementById('loginForm')
 );

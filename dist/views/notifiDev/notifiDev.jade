@@ -1,0 +1,15 @@
+extends ./../layout/layout
+
+block head
+  meta(name='description', content='linklink')
+  meta(name='author', content='roybein')
+  title linklink
+
+  link(rel='stylesheet', href='/dist/vendors/semantic-ui/dist/semantic.css')
+  link(rel='stylesheet', href='/dist/views/login/login.css')
+
+block feet
+  script(src='/dist/views/notifiDev/notifiDev.js')
+
+block body
+  div#notifiList

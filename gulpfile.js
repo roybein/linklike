@@ -27,6 +27,7 @@ var env = {
     './views/neuriteSensor/neuriteSensor.js',
     './views/login/login.js',
     './views/signup/signup.js',
+    './views/notifiDev/notifiDev.js',
   ],
 };
 
@@ -61,9 +62,9 @@ gulp.task('lint', function () {
 })
 
 gulp.task('develop', function () {
-  nodemon({ script: './linkgoLab.js'
+  nodemon({ script: './linklike.js'
           , ext: 'js'
-          , ignore: ['gulpfile.js', './dist/', './views/', './public/', './components/']
+          , ignore: ['gulpfile.js', './dist/', './views/', './public/', './components/', './containers', './actions', './reducers' ]
           , tasks: ['lint'] })
     .on('restart', function () {
       console.log('restarted!')
