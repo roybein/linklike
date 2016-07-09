@@ -17,9 +17,6 @@ store.dispatch(getAllNotifis())
 render(
   <Provider store={store}>
     <NotifiListWrap />
-{/*
-    <NotifiList notifis={[{'id': 1, 'text': 'notifi one'}, {'id': 2, 'text': 'notifi two'}]} />
-*/}
   </Provider>,
   document.getElementById('notifiList')
 )

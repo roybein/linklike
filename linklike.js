@@ -21,7 +21,7 @@ var app = express();
 app.config = config;
 
 // view engine setup
-app.set('views', path.join(__dirname, './dist/views'));
+app.set('views', path.join(__dirname, '/dist/views'));
 app.set('view engine', 'jade');
 
 // db
@@ -35,7 +35,7 @@ app.db.once('open', function () {
 require('./models/models')(app, mongoose);
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, './ui/public', 'favicon.ico')));
 
 // middleware
 app.use(logger('dev'));
@@ -49,12 +49,11 @@ app.use(session({
   store: new mongoStore({ url: config.mongodb.uri })
 }));
 
-console.log(__dirname + '/locales');
 
 // i18n
 i18n.configure({
   locales:['en', 'zh'],
-  directory: __dirname + '/locales',
+  directory: __dirname + '/ui/locales',
   autoReload: true,
   updateFiles: false,
   objectNotation: true,
@@ -80,7 +79,7 @@ require("./utils/passport/passport")(app, passport);
 
 // router
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('./ui/public', express.static(path.join(__dirname, 'public')));
 app.use('/', router);
 
 // catch 404 and forward to error handler

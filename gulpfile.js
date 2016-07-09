@@ -17,17 +17,17 @@ var less = require('gulp-less');
 var gutil = require('gulp-util');
 
 var env = {
-  VIEWS: ['./views/*.jade', './views/**/*.jade'],
-  LESS: ['./views/*.less', './views/**/*.less'],
-  DEST: 'dist',
-  DEST_VIEWS: 'dist/views',
-  DEST_VENDORS: 'dist/vendors',
+  VIEWS: ['./ui/views/*.jade', './ui/views/**/*.jade'],
+  LESS: ['./ui/views/*.less', './ui/views/**/*.less'],
+  DEST: './dist',
+  DEST_VIEWS: './dist/views',
+  DEST_VENDORS: './dist/vendors',
   ENTRY_POINTS: [
-    './views/newLink/newLink.js',
-    './views/neuriteSensor/neuriteSensor.js',
-    './views/login/login.js',
-    './views/signup/signup.js',
-    './views/notifiDev/notifiDev.js',
+    'views/newLink/newLink.js',
+    'views/neuriteSensor/neuriteSensor.js',
+    'views/login/login.js',
+    'views/signup/signup.js',
+    'views/notifiDev/notifiDev.js',
   ],
 };
 
@@ -40,11 +40,11 @@ gulp.task('less', function() {
 gulp.task('copy', function(){
   gulp.src(env.VIEWS)
     .pipe(gulp.dest(env.DEST_VIEWS));
-  gulp.src(['./AdminLTE/dist/**/**'])
+  gulp.src(['./ui/AdminLTE/dist/**/**'])
     .pipe(gulp.dest('./dist/vendors/AdminLTE/dist'));
-  gulp.src(['./AdminLTE/bootstrap/**/**'])
+  gulp.src(['./ui/AdminLTE/bootstrap/**/**'])
     .pipe(gulp.dest('./dist/vendors/AdminLTE/bootstrap'));
-  gulp.src(['./AdminLTE/plugins/iCheck/square/blue.css'])
+  gulp.src(['./ui/AdminLTE/plugins/iCheck/square/blue.css'])
     .pipe(gulp.dest('./dist/vendors/AdminLTE/plugins/iCheck/square/'));
   gulp.src(['./node_modules/jquery/dist/**'])
     .pipe(gulp.dest('./dist/vendors/jquery'));
@@ -57,14 +57,14 @@ gulp.task('copy', function(){
 });
 
 gulp.task('lint', function () {
-  gulp.src('./views/**/*.js')
+  gulp.src('./ui/views/**/*.js')
     .pipe(jshint())
 })
 
 gulp.task('develop', function () {
   nodemon({ script: './linklike.js'
           , ext: 'js'
-          , ignore: ['gulpfile.js', './dist/', './views/', './public/', './components/', './containers', './actions', './reducers' ]
+          , ignore: ['gulpfile.js', './ui/', './dist' ]
           , tasks: ['lint'] })
     .on('restart', function () {
       console.log('restarted!')
@@ -77,8 +77,9 @@ gulp.task('watch', function() {
   gulp.watch(env.VIEWS, ['copy']);
 
   env.ENTRY_POINTS.forEach(function(e, i, a) {
+    var entrie = './ui/' + e;
     var b = watchify(browserify({
-      entries: e,
+      entries: entrie,
       cache: {},
       debug: true
     }));
@@ -97,7 +98,7 @@ gulp.task('watch', function() {
       .pipe(source(name))
       .pipe(gulp.dest(env.DEST));
 
-      console.log("bundled", name);
+      console.log("bundled", entrie);
     }
   });
 });
