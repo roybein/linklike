@@ -1,4 +1,5 @@
-var React = require('react');
+import React, {PropTypes} from 'react'
+import ErrorMessage from './../components/ErrorMessage'
 
 var LoginForm = React.createClass({
   
@@ -30,12 +31,6 @@ var LoginForm = React.createClass({
     event.preventDefault();
     var username = this.state.username.trim();
     var password = this.state.password.trim();
-    var updateRes = function(res) {
-      this.setState({loginRes: res});
-    }
-    if (!username || !password) {
-      return;
-    }
     var url = '/login';
     $.post(url,
       {
@@ -54,7 +49,7 @@ var LoginForm = React.createClass({
   },
 
   render: function() {
-
+{/*
     var errorMessages = this.state.loginRes.errors.map(function(errorMsg, index) {
       return (
           <div className="row" key={index} >
@@ -73,7 +68,7 @@ var LoginForm = React.createClass({
           {errorMessages}
         </div>
     }
-
+*/}
     return (
       <div className="container login-container">
           
@@ -86,8 +81,9 @@ var LoginForm = React.createClass({
         <form className="ui form attached segment login-form" onSubmit={this.submit} >
           <div className="field">
             <label>Username</label>
-            <input type="text" className="form-control" placeholder="Enter your username"
-                  value={this.state.username} onChange={this.usernameChange} />
+            <input type="text" className="form-control"
+              placeholder="Enter your username"
+              value={this.state.username} onChange={this.usernameChange} />
             {
               this.state.showUsernameHelpSpan ? 
               <span className="help-block">help username</span> : null
@@ -110,7 +106,9 @@ var LoginForm = React.createClass({
           </div>
         </form>
 
-        {errorMessagesDiv}
+        {(this.state.loginRes.errors.length == 0)?
+          null :
+          <ErrorMessage  messages={this.state.loginRes.errors} />}
 
       </div>
     );

@@ -65,7 +65,7 @@ gulp.task('develop', function () {
   nodemon({ script: './linklike.js'
           , ext: 'js'
           , ignore: ['gulpfile.js', './ui/', './dist' ]
-          , tasks: ['lint'] })
+          , tasks: [] })
     .on('restart', function () {
       console.log('restarted!')
     })

@@ -12,20 +12,16 @@ exports = module.exports = function(app, passport) {
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      var conditions = { isActive: 'yes' };
+      //var conditions = { isActive: 'yes' };
+      var conditions = {};
       if (username.indexOf('@') === -1) {
         conditions.username = username;
-      }
-      else {
+      } else {
         conditions.email = username.toLowerCase();
       }
 
-      app.db.models.User.findOne(conditions, function(err, user) {
-        if (err) {
-          return done(err);
-        }
-
-        if (!user) {
+      app.db.models.User.findOne({where: conditions}).then( function(user) {
+        if (user == null) {
           return done(null, false, { message: 'Unknown user' });
         }
 
@@ -121,19 +117,12 @@ exports = module.exports = function(app, passport) {
   }
 */
   passport.serializeUser(function(user, done) {
-    done(null, user._id);
+    done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {
-    app.db.models.User.findOne({ _id: id }).populate('roles.admin').populate('roles.account').exec(function(err, user) {
-      if (user && user.roles && user.roles.admin) {
-        user.roles.admin.populate("groups", function(err, admin) {
-          done(err, user);
-        });
-      }
-      else {
-        done(err, user);
-      }
+    app.db.models.User.findById(id).then( function(user) {
+      done(null, user);
     });
   });
 };

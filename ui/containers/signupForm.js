@@ -1,4 +1,5 @@
 import React from 'react';
+import ErrorMessage from './../components/ErrorMessage'
 
 var SignupForm = React.createClass({
 
@@ -22,7 +23,7 @@ var SignupForm = React.createClass({
 
   usernameChange: function(event) {
     this.setState({username: event.target.value});
-    //console.log("username", event.target.value);
+    console.log("username", event.target.value);
   },
 
   emailChange: function(event) {
@@ -45,9 +46,6 @@ var SignupForm = React.createClass({
     var username = this.state.username.trim();
     var email = this.state.email.trim();
     var password = this.state.password.trim();
-    if (!username || !email || !password) {
-      return;
-    }
     var url = '/signup';
     console.log(username, email, password);
     $.post(url,
@@ -60,6 +58,7 @@ var SignupForm = React.createClass({
         if (res.success) {
           location.href = "/login";
         } else {
+          console.log(res);
           this.setState({loginRes: res});
         }
       }.bind(this)
@@ -118,8 +117,11 @@ var SignupForm = React.createClass({
               <button type="submit" className="ui button">Sign Up</button>
             </div>
           </div>
-          
         </form>
+
+        {(this.state.loginRes.errors.length == 0)?
+          null :
+          <ErrorMessage  messages={this.state.loginRes.errors} />}
       </div>
     );
   }

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/notifiDev', require('./notifiDev').get);
-router.get('/', require('./neuriteSensor').get);
+router.get('/', require('./notifiDev').get);
 router.get('/neuriteSensor', require('./neuriteSensor').get);
 router.get('/newLink', require('./newLink').get);
 

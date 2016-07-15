@@ -1,19 +1,14 @@
 'use strict';
 
 exports.init = function(req, res){
-  if (req.isAuthenticated()) {
-    res.redirect(req.user.defaultReturnUrl());
-  }
-  else {
-    res.render('signup/signup', {
-      oauthMessage: '',
-      oauthTwitter: !!req.app.config.oauth.twitter.key,
-      oauthGitHub: !!req.app.config.oauth.github.key,
-      oauthFacebook: !!req.app.config.oauth.facebook.key,
-      oauthGoogle: !!req.app.config.oauth.google.key,
-      oauthTumblr: !!req.app.config.oauth.tumblr.key
-    });
-  }
+  res.render('signup/signup', {
+    oauthMessage: '',
+    oauthTwitter: !!req.app.config.oauth.twitter.key,
+    oauthGitHub: !!req.app.config.oauth.github.key,
+    oauthFacebook: !!req.app.config.oauth.facebook.key,
+    oauthGoogle: !!req.app.config.oauth.google.key,
+    oauthTumblr: !!req.app.config.oauth.tumblr.key
+  });
 };
 
 exports.signup = function(req, res){
@@ -46,12 +41,8 @@ exports.signup = function(req, res){
   });
 
   workflow.on('duplicateUsernameCheck', function() {
-    req.app.db.models.User.findOne({ username: req.body.username }, function(err, user) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      if (user) {
+    req.app.db.models.User.findOne({where: {username: req.body.username}}).then( function(user) {
+      if (user != null) {
         workflow.outcome.errfor.username = 'username ' + req.body.username + ' already taken';
         return workflow.emit('response');
       }
@@ -61,12 +52,8 @@ exports.signup = function(req, res){
   });
 
   workflow.on('duplicateEmailCheck', function() {
-    req.app.db.models.User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      if (user) {
+    req.app.db.models.User.findOne({where: {username: req.body.email.toLowerCase()}}).then( function(user) {
+      if (user != null) {
         workflow.outcome.errfor.email = 'email already registered';
         return workflow.emit('response');
       }
@@ -91,13 +78,10 @@ exports.signup = function(req, res){
           req.body.email
         ]
       };
-      req.app.db.models.User.create(fieldsToSet, function(err, user) {
-        if (err) {
-          return workflow.emit('exception', err);
-        }
-
-        workflow.user = user;
-        workflow.emit('createAccount');
+      req.app.db.models.User.create(fieldsToSet).then(function() {
+        //workflow.user = user;
+        //workflow.emit('createAccount');
+        workflow.emit('logUserIn');
       });
     });
   });
@@ -164,14 +148,13 @@ exports.signup = function(req, res){
       if (!user) {
         workflow.outcome.errors.push('Login failed. That is strange.');
         return workflow.emit('response');
-      }
-      else {
+      } else {
         req.login(user, function(err) {
           if (err) {
             return workflow.emit('exception', err);
           }
 
-          workflow.outcome.defaultReturnUrl = user.defaultReturnUrl();
+          //workflow.outcome.defaultReturnUrl = user.defaultReturnUrl();
           workflow.emit('response');
         });
       }
@@ -181,6 +164,7 @@ exports.signup = function(req, res){
   workflow.emit('validate');
 };
 
+/*
 exports.signupTwitter = function(req, res, next) {
   req._passport.instance.authenticate('twitter', function(err, user, info) {
     if (!info || !info.profile) {
@@ -475,3 +459,4 @@ exports.signupSocial = function(req, res){
 
   workflow.emit('validate');
 };
+*/

@@ -4,8 +4,11 @@ exports.port = process.env.PORT || 4000;
 exports.mongodb = {
   uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/linkgo'
 };
+exports.emqtt = {
+  uri: process.env.EMQTT_URI || 'http://localhost:10183'
+}
 exports.companyName = 'Linkgo LLC.';
-exports.projectName = 'Linkgo Lab';
+exports.projectName = 'linklike';
 exports.systemEmail = 'your@email.addy';
 exports.cryptoKey = 'eb3EcomyI7';
 exports.loginAttempts = {

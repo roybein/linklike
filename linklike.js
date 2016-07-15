@@ -5,12 +5,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var csrf = require('csurf');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var ioredis = require('ioredis');
-var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
-var csrf = require('csurf');
+var ioredis = require('ioredis');
 
 var config = require('./config');
 var router = require('./routes/routes');
@@ -25,14 +25,19 @@ app.set('views', path.join(__dirname, '/dist/views'));
 app.set('view engine', 'jade');
 
 // db
-app.db = mongoose.createConnection(config.mongodb.uri);
-app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
-app.db.once('open', function () {
-  // mongodb connected!
-  console.log("mongodb", config.mongodb.uri, "connected");
-});
+// app.db = mongoose.createConnection(config.mongodb.uri);
+// app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
+// app.db.once('open', function () {
+//   // mongodb connected!
+//   console.log("mongodb", config.mongodb.uri, "connected");
+// });
+
+
 // models
-require('./models/models')(app, mongoose);
+app.db = require('./models/models.js');
+app.db.sequelize.sync({force: true}).then(function() {
+  console.log("sequelize sync done");
+});
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, './ui/public', 'favicon.ico')));
@@ -69,7 +74,7 @@ app.use(csrf({ cookie: { signed: true } }));
 app.use(function(req, res, next) {
   res.cookie('_csrfToken', req.csrfToken());
   res.locals.user = {};
-  res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
+  //res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
   res.locals.user.username = req.user && req.user.username;
   next();
 });
@@ -119,7 +124,10 @@ app.utility.slugify = require('./utils/slugify');
 app.utility.workflow = require('./utils/workflow');
 app.utility.redis = new ioredis();
 
-rawdata = require('./utils/rawdata/rawdata.js');
+var TopicManagerTest = require('./api/TopicManagerTest.js');
+//TopicManagerTest.run();
+
+//rawdata = require('./utils/rawdata/rawdata.js');
 //rawdata.start('mqtt_node_pek2.0x61.me', app.utility.redis);
 //rawdata.start('mqtt.0x61.me', app.utility.redis);
 

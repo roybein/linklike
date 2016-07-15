@@ -1,16 +1,19 @@
 'use strict';
+var Sequelize = require('sequelize');
+var db = {models: {}};
 
-exports = module.exports = function(app, mongoose) {
-  //embeddable docs first
-  require('./schema/Note')(app, mongoose);
-  require('./schema/Status')(app, mongoose);
-  require('./schema/StatusLog')(app, mongoose);
-  require('./schema/Category')(app, mongoose);
+var sequelize = new Sequelize('linklikedb', 'roybein', 'public', {
+  host: 'localhost',
+  dialect: 'postgres',
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+});
 
-  //then regular docs
-  require('./schema/User')(app, mongoose);
-  require('./schema/Admin')(app, mongoose);
-  require('./schema/AdminGroup')(app, mongoose);
-  require('./schema/Account')(app, mongoose);
-  require('./schema/LoginAttempt')(app, mongoose);
-};
+db.models.User = sequelize.import('./User.js');
+db.models.LoginAttempt = sequelize.import('./LoginAttempt.js');
+db.sequelize = sequelize;
+
+module.exports = db;
