@@ -23,7 +23,7 @@ var SignupForm = React.createClass({
 
   usernameChange: function(event) {
     this.setState({username: event.target.value});
-    console.log("username", event.target.value);
+    //console.log("username", event.target.value);
   },
 
   emailChange: function(event) {
@@ -47,7 +47,7 @@ var SignupForm = React.createClass({
     var email = this.state.email.trim();
     var password = this.state.password.trim();
     var url = '/signup';
-    console.log(username, email, password);
+    //console.log(username, email, password);
     $.post(url,
       {
         "username": username,
@@ -58,7 +58,7 @@ var SignupForm = React.createClass({
         if (res.success) {
           location.href = "/login";
         } else {
-          console.log(res);
+          //console.log(res);
           this.setState({loginRes: res});
         }
       }.bind(this)
@@ -76,27 +76,28 @@ var SignupForm = React.createClass({
         </div>
 
         <form className="ui form attached segment signup-form" onSubmit={this.submit} >
-          <div className="field">
+          <div className={(this.state.loginRes.errfor.hasOwnProperty("username"))? "field error" : "field"}>
             <label>Username</label>
-            <input type="text" className="form-control" placeholder="Pick a username"
+            <input type="text"
+                  placeholder="Pick a username"
                   value={this.state.username} onChange={this.usernameChange} />
             {
               this.state.showUsernameHelpSpan ? 
               <span className="help-block">help username</span> : null
             }
           </div>
-          <div className="field">
+          <div className={(this.state.loginRes.errfor.hasOwnProperty("email"))? "field error" : "field"}>
             <label>Email</label>
-            <input type="email" className="form-control" placeholder="Enter your email address"
+            <input type="email" placeholder="Enter your email address"
                   value={this.state.email} onChange={this.emailChange} />
             {
               this.state.showEmailHelpSpan ? 
               <span className="help-block">help email address</span> : null
             }
           </div>
-          <div className="field">
+          <div className={(this.state.loginRes.errfor.hasOwnProperty("password"))? "field error" : "field"}>
             <label>Password</label>
-            <input type="password" className="form-control" placeholder="Choose a password"
+            <input type="password" placeholder="Choose a password"
                   value={this.state.password} onChange={this.passwordChange} />
             {
               this.state.showPwdHelpSpan ? 
@@ -105,7 +106,7 @@ var SignupForm = React.createClass({
           </div>
           <div className="field">
             <label>Password Confirm</label>
-            <input type="password" className="form-control" placeholder="Enter the password you choose again"
+            <input type="password" placeholder="Enter the password you choose again"
                   value={this.state.passwordConfirm} onChange={this.passwordConfirmChange} />
             {
               this.state.showPwdConfirmHelpSpan ? 
@@ -114,7 +115,7 @@ var SignupForm = React.createClass({
           </div>
           <div className="field button">
             <div className="row">
-              <button type="submit" className="ui button">Sign Up</button>
+              <button type="submit" className="ui button primary">Sign Up</button>
             </div>
           </div>
         </form>

@@ -27,7 +27,6 @@ exports.init = function(req, res){
 };
 
 exports.login = function(req, res){
-  console.log("login");
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
@@ -50,13 +49,6 @@ exports.login = function(req, res){
   workflow.on('abuseFilter', function() {
     var getIpCount = function(done) {
       var conditions = { ip: req.ip };
-      // req.app.db.models.LoginAttempt.count(conditions, function(err, count) {
-      //   if (err) {
-      //     return done(err);
-      //   }
-      //
-      //   done(null, count);
-      // });
       req.app.db.models.LoginAttempt.count({where: conditions}).then(function(count) {
         done(null, count);
       });
@@ -64,13 +56,6 @@ exports.login = function(req, res){
 
     var getIpUserCount = function(done) {
       var conditions = { ip: req.ip, user: req.body.username };
-      // req.app.db.models.LoginAttempt.count(conditions, function(err, count) {
-      //   if (err) {
-      //     return done(err);
-      //   }
-      //
-      //   done(null, count);
-      // });
       req.app.db.models.LoginAttempt.count({where: conditions}).then(function(count) {
         done(null, count);
       });
@@ -98,19 +83,8 @@ exports.login = function(req, res){
       if (err) {
         return workflow.emit('exception', err);
       }
-
-      console.log("user",user);
-
       if (!user) {
         var fieldsToSet = { ip: req.ip, user: req.body.username };
-        // req.app.db.models.LoginAttempt.create(fieldsToSet, function(err, doc) {
-        //   if (err) {
-        //     return workflow.emit('exception', err);
-        //   }
-        //
-        //   workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
-        //   return workflow.emit('response');
-        // });
         req.app.db.models.LoginAttempt.create({where: fieldsToSet}).then( function(doc) {
           workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
           return workflow.emit('response');
@@ -120,8 +94,6 @@ exports.login = function(req, res){
           if (err) {
             return workflow.emit('exception', err);
           }
-
-          
           workflow.emit('response');
         });
       }

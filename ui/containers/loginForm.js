@@ -38,7 +38,7 @@ var LoginForm = React.createClass({
         "password": password
       },
       function (res, status) {
-        console.log(res);
+        //console.log(res);
         if (res.success) {
           location.href = "/login";
         } else {
@@ -79,19 +79,18 @@ var LoginForm = React.createClass({
         </div>
 
         <form className="ui form attached segment login-form" onSubmit={this.submit} >
-          <div className="field">
+          <div className={(this.state.loginRes.errfor.hasOwnProperty("username"))? "field error" : "field"}>
             <label>Username</label>
-            <input type="text" className="form-control"
-              placeholder="Enter your username"
+            <input type="text" placeholder="Enter your username"
               value={this.state.username} onChange={this.usernameChange} />
             {
               this.state.showUsernameHelpSpan ? 
               <span className="help-block">help username</span> : null
             }
           </div>
-          <div className="field">
+          <div className={(this.state.loginRes.errfor.hasOwnProperty("password"))? "field error" : "field"}>
             <label>Password</label>
-            <input type="password" className="form-control" placeholder="Enter your password"
+            <input type="password" placeholder="Enter your password"
                   value={this.state.password} onChange={this.passwordChange} />
             {
               this.state.showPwdHelpSpan ? 
@@ -100,8 +99,8 @@ var LoginForm = React.createClass({
           </div>
           <div className="field button">
             <div className="row">
-              <button type="submit" className="ui button">Sign In</button>
-              <a className="ui button right" href="/signup/">Sign Up</a>
+              <button type="submit" className="ui button positive">Sign In</button>
+              <a className="ui button primary right" href="/signup/">Sign Up</a>
             </div>
           </div>
         </form>
