@@ -27,6 +27,7 @@ exports.init = function(req, res){
 };
 
 exports.login = function(req, res){
+  console.log(req.body);
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {

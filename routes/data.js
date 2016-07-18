@@ -1,7 +1,5 @@
-'use strict';
-
 exports.fetch = function(req, res) {
-  //console.log(req.body);
+  console.log(req.body);
   var redis = req.app.utility.redis;
   var dataKey = req.body.dataKey;
   var count = req.body.count;

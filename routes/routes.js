@@ -1,18 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/notifiDev', require('./notifiDev').get);
 router.get('/', require('./notifiDev').get);
-router.get('/neuriteSensor', require('./neuriteSensor').get);
-router.get('/newLink', require('./newLink').get);
+router.get('/notifiDev', require('./notifiDev').get);
 
-// router.get('/home/', require('./home').get);
+router.get('/neuriteSensor', require('./neuriteSensor.js').get);
+
 router.get('/login', require('./login').init);
 router.post('/login/', require('./login').login);
 router.get('/signup/', require('./signup').init);
 router.post('/signup/', require('./signup').signup);
 router.get('/logout', require('./logout').init);
 
-router.post('/data/', require('./data').fetch);
+router.post('/data', require('./data').fetch);
+router.post('/notifi/fetch', require('./../api/notifi').fetch);
+router.post('/notifi/add', require('./../api/notifi').add);
 
 module.exports = router;
