@@ -7,7 +7,7 @@ const NotifiList = ({ notifis }) => (
     {notifis.map(notifi =>
       <Notifi
         key={notifi.id}
-        text={notifi.text}
+        text={notifi.topic}
       />
     )}
   </ul>
@@ -16,7 +16,7 @@ const NotifiList = ({ notifis }) => (
 NotifiList.protoTypes = {
   notifis: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired
+    topic: PropTypes.string.isRequired
   }).isRequired).isRequired
 }
 

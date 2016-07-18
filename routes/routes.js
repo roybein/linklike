@@ -13,7 +13,8 @@ router.post('/signup/', require('./signup').signup);
 router.get('/logout', require('./logout').init);
 
 router.post('/data', require('./data').fetch);
+router.post('/notifi/new', require('./../api/notifi').new);
 router.post('/notifi/fetch', require('./../api/notifi').fetch);
-router.post('/notifi/add', require('./../api/notifi').add);
+router.post('/notifi/link', require('./../api/notifi').link);
 
 module.exports = router;

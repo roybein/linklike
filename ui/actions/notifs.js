@@ -1,20 +1,39 @@
-let nextNotifi = 0;
+
+export const REQUEST_NOTIFIS = "REQUEST_NOTIFIS";
+export const RECEIVE_NOTIFIS = "RECEIVE_NOTIFIS";
 
 export const getAllNotifis = () => {
   return {
-    type: 'GET_ALL_NOTIFIS',
+    type: 'GET_FAKE_NOTIFIS',
     notifis:  [
-      {id: 1, text: 'sun set'},
-      {id: 2, text: 'bird fly'},
-      {id: 3, text: 'dog feeded'}
+      {id: 1, topic: 'sun set'},
+      {id: 2, topic: 'bird fly'},
+      {id: 3, topic: 'dog feeded'}
     ]
   }
 }
 
-export const addNotifi = (text) => {
+function requestNotifis(searchWord) {
   return {
-    type: 'ADD_NOTIFI',
-    id: nextNotifi++,
-    text
+    type: REQUEST_NOTIFIS,
+    searchWord
   };
-};
+}
+
+function receiveNotifis(searchWord, notifis) {
+  return {
+    type: RECEIVE_NOTIFIS,
+    searchWord,
+    notifis: notifis
+  };
+}
+
+export function fetchNotifis(searchWord) {
+  return dispatch => {
+    dispatch(requestNotifis(searchWord));
+    return $.post("/notifi/fetch", function(res, status) {
+      console.log(res.data);
+      dispatch(receiveNotifis(searchWord, res.data));
+    });
+  }
+}

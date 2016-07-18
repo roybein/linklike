@@ -2,17 +2,17 @@ import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 
-import {getAllNotifis} from './../../actions/notifs'
-import notifiStore from './../../reducers/notifiStore'
+import {getAllNotifis, fetchNotifis} from './../../actions/notifs'
+import notifiReducer from './../../reducers/notifiReducer'
 import NotifiListWrap from './../../containers/NotifiListWrap'
-import NotifiList from './../../components/NotifiList'
-import Notifi from './../../components/Notifi'
 
-let store = createStore(notifiStore)
+const store = createStore(notifiReducer, applyMiddleware(thunkMiddleware));
 
-store.dispatch(getAllNotifis())
+//store.dispatch(getAllNotifis())
+store.dispatch(fetchNotifis());
 
 render(
   <Provider store={store}>

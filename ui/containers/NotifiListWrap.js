@@ -5,12 +5,10 @@ import NotifiList from './../components/NotifiList'
 
 const mapStateToProps = (state) => {
   return {
-    notifis: state.notifis
+    notifis: state.notifisFetchReducer.notifis
   }
 }
 
-const NotifiListWrap = connect(
-  mapStateToProps
-)(NotifiList)
+const NotifiListWrap = connect(mapStateToProps)(NotifiList)
 
 export default NotifiListWrap
