@@ -7,7 +7,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import {getAllNotifis, fetchNotifis} from './../../actions/notifs'
 import notifiReducer from './../../reducers/notifiReducer'
-import NotifiListWrap from './../../containers/NotifiListWrap'
+import NotifiManager from './../../containers/NotifiManager'
 
 const store = createStore(notifiReducer, applyMiddleware(thunkMiddleware));
 
@@ -16,7 +16,7 @@ store.dispatch(fetchNotifis());
 
 render(
   <Provider store={store}>
-    <NotifiListWrap />
+    <NotifiManager />
   </Provider>,
   document.getElementById('notifiList')
 )

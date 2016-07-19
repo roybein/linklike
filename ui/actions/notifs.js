@@ -1,6 +1,6 @@
-
 export const REQUEST_NOTIFIS = "REQUEST_NOTIFIS";
 export const RECEIVE_NOTIFIS = "RECEIVE_NOTIFIS";
+export const ADD_NOTIFI = "ADD_NOTIFI";
 
 export const getAllNotifis = () => {
   return {
@@ -25,6 +25,13 @@ function receiveNotifis(searchWord, notifis) {
     type: RECEIVE_NOTIFIS,
     searchWord,
     notifis: notifis
+  };
+}
+
+function addNotifi(topic) {
+  return {
+    type: ADD_NOTIFI,
+    topic
   };
 }
 
