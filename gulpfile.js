@@ -81,7 +81,7 @@ gulp.task('watch', function() {
     var b = watchify(browserify({
       entries: entrie,
       cache: {},
-      debug: true
+      //debug: true
     }));
 
     b.on('update', bundle);

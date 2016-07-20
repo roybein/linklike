@@ -1,6 +1,7 @@
 export const REQUEST_NOTIFIS = "REQUEST_NOTIFIS";
 export const RECEIVE_NOTIFIS = "RECEIVE_NOTIFIS";
 export const NEW_NOTIFI_DONE = "NEW_NOTIFI_DONE";
+export const NEW_NOTIFI_START = "NEW_NOTIFI_START";
 
 export const getAllNotifis = () => {
   return {
@@ -28,10 +29,10 @@ function receiveNotifis(searchWord, notifis) {
   };
 }
 
-export function addNotifiDone(topic) {
+export function addNotifiDone(notifi) {
   return {
     type: NEW_NOTIFI_DONE,
-    topic
+    notifi
   };
 }
 
@@ -42,5 +43,27 @@ export function fetchNotifis(searchWord) {
       console.log(res.data);
       dispatch(receiveNotifis(searchWord, res.data));
     });
+  }
+}
+
+function newNotifiStart(topic) {
+  return {
+    type: NEW_NOTIFI_START,
+    topic
+  }
+}
+
+export function newNotifi(userId, topic) {
+  return dispatch => {
+    dispatch(newNotifiStart(topic));
+    return $.post("/notifi/new",
+      {
+        userId: userId,
+        topic: topic
+      },
+      function(res, status) {
+        console.log(res);
+        dispatch(addNotifiDone(res.data.notifi));
+      });
   }
 }

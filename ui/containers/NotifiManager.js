@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import { addNotifiDone } from './../actions/notifs.js'
+import { newNotifi } from './../actions/notifs.js'
 import NotifiList from './../components/NotifiList'
 import NewNotifiForm from './../containers/NewNotifiForm'
 
@@ -36,9 +36,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddNotifi: () => {
-      console.log("onAddNotifi");
-      dispatch(addNotifiDone("new topic"));
+    onAddNotifi: (topic) => {
+      console.log("onAddNotifi", topic);
+      dispatch(newNotifi(1, topic));
     }
   }  
 }

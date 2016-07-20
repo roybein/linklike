@@ -12,21 +12,10 @@ const notifisFetchReducer = (state = {
     case 'RECEIVE_NOTIFIS':
       return Object.assign({}, state, {notifis: action.notifis});
     case 'NEW_NOTIFI_DONE':
-      console.log(state);
-      var s = Object.assign({}, state, {notifis: [...state.notifis, {id:4, topic: "test_topic_new"}]});
+      var s = Object.assign({}, state, {notifis: [...state.notifis, action.notifi]});
       console.log(s);
       return s;
     default:
-      return state;
-  }
-}
-
-const notifiNewDone = (state, action) => {
-  switch (action.type) {
-    case 'NEW_NOTIFI_DONE':
-      console.log("notifiNewDone action.topic", action.topic);
-      return action.topic
-    default: 
       return state;
   }
 }
@@ -36,9 +25,10 @@ const notifiNewReducer = (state = {
   topic: ""
 }, action) => {
   switch (action.type) {
+    case 'NEW_NOTIFI_START':
+      return Object.assign({}, state, {isAdding: true});
     case 'NEW_NOTIFI_DONE':
-      console.log(state);
-      return {isAdding: false, topic: ""};
+      return Object.assign({}, state, {topic: ""});
     default:
       return state;
   }

@@ -42,6 +42,7 @@ exports.new = function(req, res) {
 
       Notifi.create({topic: topic}).then(function(notifi) {
         notifi.addPubber(user);
+        workflow.outcome.data = {notifi: notifi};
         return workflow.emit('response');
       });
     });    
