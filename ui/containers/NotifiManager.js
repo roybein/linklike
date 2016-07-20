@@ -1,15 +1,21 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-
+import { addNotifiDone } from './../actions/notifs.js'
 import NotifiList from './../components/NotifiList'
+import NewNotifiForm from './../containers/NewNotifiForm'
 
 class NotifiManager extends Component {
+
   render() {
-    const {notifis} = this.props;
+    const {notifis, topic} = this.props;
+    console.log(this.props);
 
     return (
-      <NotifiList notifis={notifis} />
-    )
+      <div>
+        <NotifiList notifis={notifis} />
+        <NewNotifiForm topic={topic} onAddNotifi={this.props.onAddNotifi}/>
+      </div>
+    );
   }
 }
 
@@ -17,14 +23,25 @@ NotifiManager.protoTypes = {
   notifis: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     topic: PropTypes.string.isRequired
-  }).isRequired).isRequired
+  }).isRequired).isRequired,
+  topic: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
-    notifis: state.notifisFetchReducer.notifis
+    notifis: state.notifisFetchReducer.notifis,
+    topic: state.notifiNewReducer.topic
   }
 }
 
-export default connect(mapStateToProps)(NotifiManager)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddNotifi: () => {
+      console.log("onAddNotifi");
+      dispatch(addNotifiDone("new topic"));
+    }
+  }  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotifiManager)
 

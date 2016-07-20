@@ -49,26 +49,6 @@ var LoginForm = React.createClass({
   },
 
   render: function() {
-{/*
-    var errorMessages = this.state.loginRes.errors.map(function(errorMsg, index) {
-      return (
-          <div className="row" key={index} >
-            <i className="icon warning circle"></i>
-            {errorMsg}
-          </div>
-      );
-    });
-
-    var errorMessagesDiv;
-    if (this.state.loginRes.errors.length == 0) {
-      errorMessagesDiv = null;
-    } else {
-      errorMessagesDiv = 
-        <div className="ui bottom attached warning message">
-          {errorMessages}
-        </div>
-    }
-*/}
     return (
       <div className="container login-container">
           
