@@ -1,7 +1,9 @@
 'use strict';
 
+var logger = require('tracer').colorConsole();
+
 exports.fetch = function(req, res) {
-  console.log(req.body);
+  logger.trace(req.body);
   var username = req.body.username;
   var Notifi = req.app.db.models.Notifi;
   var User = req.app.db.models.User;
@@ -13,18 +15,20 @@ exports.fetch = function(req, res) {
   });
 
   workflow.on('fetch', function() {
-    //console.log("username:", username);
+    //logger.trace("username:", username);
     var conditions = {};
     if(username === undefined) {
+      logger.trace("fetch notifis of currentUser");
       conditions.id = req.user;
     } else {
+      logger.trace("fetch notifis of", username);
       conditions.username = username;
     }
     
     User.findOne({where: conditions}).then(function(user) {
-      //console.log(user);
+      //logger.trace(user);
       user.getPubs().then(function(notifis) {
-        //console.log(notifis);
+        //logger.trace(notifis);
         workflow.outcome.data = notifis;
         return workflow.emit('response');
       });
@@ -35,7 +39,7 @@ exports.fetch = function(req, res) {
 };
 
 exports.new = function(req, res) {
-  console.log(req.body);
+  logger.trace(req.body);
   var Notifi = req.app.db.models.Notifi;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
@@ -66,7 +70,7 @@ exports.new = function(req, res) {
 };
 
 exports.link = function(req, res) {
-  console.log(req.body);
+  logger.trace(req.body);
   var Notifi = req.app.db.models.Notifi;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);

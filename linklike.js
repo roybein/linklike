@@ -2,7 +2,8 @@ var express = require('express');
 var i18n = require('i18n');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
+var logger = require('tracer').colorConsole();
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -27,14 +28,14 @@ app.set('view engine', 'jade');
 // models
 app.db = require('./models/models.js');
 app.db.sequelize.sync().then(function() {
-  console.log("sequelize sync done");
+  logger.trace("sequelize sync done");
 });
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, './ui/public', 'favicon.ico')));
 
 // middleware
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.cryptoKey));
@@ -123,7 +124,7 @@ var TopicManagerTest = require('./api/TopicManagerTest.js');
 //rawdata.start('mqtt.0x61.me', app.utility.redis);
 
 app.listen(app.config.port, function() {
-  console.log("listen", app.config.port);
+  logger.trace("listen", app.config.port);
 });
 
 module.exports = app;
