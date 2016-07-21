@@ -11,7 +11,6 @@ import NotifiManager from './../../containers/NotifiManager'
 
 const store = createStore(notifiReducer, applyMiddleware(thunkMiddleware));
 
-//store.dispatch(getAllNotifis())
 store.dispatch(fetchNotifis());
 
 render(

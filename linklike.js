@@ -24,18 +24,8 @@ app.config = config;
 app.set('views', path.join(__dirname, '/dist/views'));
 app.set('view engine', 'jade');
 
-// db
-// app.db = mongoose.createConnection(config.mongodb.uri);
-// app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
-// app.db.once('open', function () {
-//   // mongodb connected!
-//   console.log("mongodb", config.mongodb.uri, "connected");
-// });
-
-
 // models
 app.db = require('./models/models.js');
-//app.db.sequelize.sync({force: true}).then(function() {
 app.db.sequelize.sync().then(function() {
   console.log("sequelize sync done");
 });

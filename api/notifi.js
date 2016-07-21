@@ -2,7 +2,9 @@
 
 exports.fetch = function(req, res) {
   console.log(req.body);
+  var username = req.body.username;
   var Notifi = req.app.db.models.Notifi;
+  var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
@@ -11,10 +13,22 @@ exports.fetch = function(req, res) {
   });
 
   workflow.on('fetch', function() {
-    Notifi.findAll().then(function(notifis) {
-      workflow.outcome.data = notifis;
-      return workflow.emit('response');
-    });    
+    //console.log("username:", username);
+    var conditions = {};
+    if(username === undefined) {
+      conditions.id = req.user;
+    } else {
+      conditions.username = username;
+    }
+    
+    User.findOne({where: conditions}).then(function(user) {
+      //console.log(user);
+      user.getPubs().then(function(notifis) {
+        //console.log(notifis);
+        workflow.outcome.data = notifis;
+        return workflow.emit('response');
+      });
+    });
   });
 
   workflow.emit('validate');

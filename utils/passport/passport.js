@@ -122,7 +122,7 @@ exports = module.exports = function(app, passport) {
 
   passport.deserializeUser(function(id, done) {
     app.db.models.User.findById(id).then( function(user) {
-      done(null, user);
+      done(null, user.id);
     });
   });
 };

@@ -14,16 +14,18 @@ export const getAllNotifis = () => {
   }
 }
 
-function requestNotifis(searchWord) {
+function requestNotifis(username, searchWord) {
   return {
     type: REQUEST_NOTIFIS,
+    username,
     searchWord
   };
 }
 
-function receiveNotifis(searchWord, notifis) {
+function receiveNotifis(username, searchWord, notifis) {
   return {
     type: RECEIVE_NOTIFIS,
+    username,
     searchWord,
     notifis: notifis
   };
@@ -36,13 +38,19 @@ export function addNotifiDone(notifi) {
   };
 }
 
-export function fetchNotifis(searchWord) {
+export function fetchNotifis(username, searchWord) {
   return dispatch => {
-    dispatch(requestNotifis(searchWord));
-    return $.post("/notifi/fetch", function(res, status) {
-      console.log(res.data);
-      dispatch(receiveNotifis(searchWord, res.data));
-    });
+    dispatch(requestNotifis(username, searchWord));
+    return $.post("/notifi/fetch",
+      {
+        username: username,
+        searchWord: searchWord
+      },
+      function(res, status) {
+        //console.log(res.data);
+        dispatch(receiveNotifis(username, searchWord, res.data));
+      }
+    );
   }
 }
 
@@ -62,7 +70,7 @@ export function newNotifi(userId, topic) {
         topic: topic
       },
       function(res, status) {
-        console.log(res);
+        //console.log(res);
         dispatch(addNotifiDone(res.data.notifi));
       });
   }

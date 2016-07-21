@@ -12,9 +12,7 @@ const notifisFetchReducer = (state = {
     case 'RECEIVE_NOTIFIS':
       return Object.assign({}, state, {notifis: action.notifis});
     case 'NEW_NOTIFI_DONE':
-      var s = Object.assign({}, state, {notifis: [...state.notifis, action.notifi]});
-      console.log(s);
-      return s;
+      return Object.assign({}, state, {notifis: [...state.notifis, action.notifi]});
     default:
       return state;
   }
@@ -33,7 +31,6 @@ const notifiNewReducer = (state = {
       return state;
   }
 }
-    
 
 const notifiReducer = combineReducers({
   notifisFetchReducer,
