@@ -28882,15 +28882,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = require('redux');
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var notifisFetchReducer = function notifisFetchReducer() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {
@@ -28966,14 +28958,16 @@ var _NotifiManager = require('./../../containers/NotifiManager');
 
 var _NotifiManager2 = _interopRequireDefault(_NotifiManager);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store = (0, _redux.createStore)(_notifiReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
 store.dispatch((0, _notifs.fetchNotifis)());
 
-(0, _reactDom.render)(_react2.default.createElement(_reactRedux.Provider, { store: store }, _react2.default.createElement(_NotifiManager2.default, null)), document.getElementById('notifiList'));
+(0, _reactDom.render)(_react2.default.createElement(
+  _reactRedux.Provider,
+  { store: store },
+  _react2.default.createElement(_NotifiManager2.default, null)
+), document.getElementById('notifiList'));
 
 },{"./../../actions/notifs":494,"./../../containers/NotifiManager":498,"./../../reducers/notifiReducer":499,"babel-polyfill":1,"react":479,"react-dom":299,"react-redux":302,"redux":486,"redux-thunk":480}]},{},[500]);

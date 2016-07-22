@@ -116,8 +116,8 @@ app.utility.slugify = require('./utils/slugify');
 app.utility.workflow = require('./utils/workflow');
 app.utility.redis = new ioredis();
 
-var TopicManagerTest = require('./api/TopicManagerTest.js');
-//TopicManagerTest.run();
+var emqttManagerTest = require('./api/emqttManagerTest.js');
+emqttManagerTest.run();
 
 //rawdata = require('./utils/rawdata/rawdata.js');
 //rawdata.start('mqtt_node_pek2.0x61.me', app.utility.redis);
