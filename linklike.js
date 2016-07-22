@@ -117,7 +117,7 @@ app.utility.workflow = require('./utils/workflow');
 app.utility.redis = new ioredis();
 
 var emqttManagerTest = require('./api/emqttManagerTest.js');
-emqttManagerTest.run();
+emqttManagerTest.run("http://localhost:18083", app.utility.redis);
 
 //rawdata = require('./utils/rawdata/rawdata.js');
 //rawdata.start('mqtt_node_pek2.0x61.me', app.utility.redis);

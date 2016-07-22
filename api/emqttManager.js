@@ -1,10 +1,13 @@
 'use strict';
 
+var logger = require('tracer').colorConsole();
+
 var request = require('request');
 
 var emqttManager = {
-  init: function(emqtt_uri) {
+  init: function(emqtt_uri, emqtt_redis) {
     this.emqtt_uri = emqtt_uri; 
+    this.emqtt_redis = emqtt_redis;
   },
 
   getTopics: function(callback) {
@@ -37,6 +40,7 @@ var emqttManager = {
   },
 
   addUser: function(username, password, callback) {
+    this.emqtt_redis.hset(username, 'password', password).then(callback);
   }
 };
 
