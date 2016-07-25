@@ -5,7 +5,7 @@ var logger = require('tracer').colorConsole();
 exports.fetch = function(req, res) {
   logger.trace(req.body);
   var username = req.body.username;
-  var Notifi = req.app.db.models.Notifi;
+  var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
 
@@ -40,7 +40,7 @@ exports.fetch = function(req, res) {
 
 exports.new = function(req, res) {
   logger.trace(req.body);
-  var Notifi = req.app.db.models.Notifi;
+  var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
   var topic = req.body.topic;
@@ -58,7 +58,7 @@ exports.new = function(req, res) {
         return workflow.emit('response');
       }
 
-      Notifi.create({topic: topic}).then(function(topic) {
+      Topic.create({topic: topic}).then(function(topic) {
         topic.addPubber(user);
         workflow.outcome.data = {topic: topic};
         return workflow.emit('response');
@@ -71,7 +71,7 @@ exports.new = function(req, res) {
 
 exports.link = function(req, res) {
   logger.trace(req.body);
-  var Notifi = req.app.db.models.Notifi;
+  var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
   var topicId = req.body.topicId;
@@ -89,7 +89,7 @@ exports.link = function(req, res) {
         return workflow.emit('response');
       }
 
-      Notifi.findOne({where: {id: topicId}}).then(function(topic) {
+      Topic.findOne({where: {id: topicId}}).then(function(topic) {
         if (topic === null) {
           workflow.outcome.errors.push('invalid topicId');
           return workflow.emit('response');
