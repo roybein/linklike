@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 
-var NewNotifiForm  = React.createClass({
+var NewTopicForm  = React.createClass({
   propTypes: {
     topic: PropTypes.string.isRequired,
-    onAddNotifi: PropTypes.func.isRequired
+    onAddTopic: PropTypes.func.isRequired
   },
 
-  onAddNotifiClick: function() {
-    console.log("onAddNotifiClick", this.inputTopic.value);
-    this.props.onAddNotifi(this.inputTopic.value);
+  onAddTopicClick: function() {
+    console.log("onAddTopicClick", this.inputTopic.value);
+    this.props.onAddTopic(this.inputTopic.value);
   },
 
   render: function() {
@@ -17,12 +17,12 @@ var NewNotifiForm  = React.createClass({
         <div className="ui form segment">
           <div className="field">
             <label>Topic</label>
-            <input type="text" placeholder="topic of your notifi"
+            <input type="text" placeholder="input the topic"
               ref={ (input) => {this.inputTopic = input}}
               defaultValue={this.props.topic} />
           </div>
           <div className="field">
-            <button onClick={this.onAddNotifiClick} >Add Notifi</button>
+            <button onClick={this.onAddTopicClick} >Add Topic</button>
           </div>
         </div>
       </div>
@@ -30,4 +30,4 @@ var NewNotifiForm  = React.createClass({
   }
 });
 
-export default NewNotifiForm;
+export default NewTopicForm;

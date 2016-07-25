@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  var Notifi = sequelize.define('notifi',
+  var Topic = sequelize.define('topic',
     {
       topic: { type: DataTypes.STRING },
       search: { type: DataTypes.ARRAY(DataTypes.STRING) }
@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 
-  return Notifi;
+  return Topic;
 }

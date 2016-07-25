@@ -40,7 +40,17 @@ var emqttManager = {
   },
 
   addUser: function(username, password, callback) {
-    this.emqtt_redis.hset(username, 'password', password).then(callback);
+    this.emqtt_redis.hset(("mqtt_user:" + username), "password", password).then(function() {
+      logger.trace("addUser", username);
+      callback();
+    });
+  },
+
+  addAclPermission: function(username, action, topic, callback) {
+    this.emqtt_redis.sadd(("mqtt_acl:" + username), (action + " " + topic)).then( function() {
+      logger.trace("addAclPermission", username, action, topic);
+      callback();
+    })
   }
 };
 

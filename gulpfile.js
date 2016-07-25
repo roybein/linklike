@@ -27,7 +27,7 @@ var env = {
     'views/neuriteSensor/neuriteSensor.js',
     'views/login/login.js',
     'views/signup/signup.js',
-    'views/notifiDev/notifiDev.js',
+    'views/topicDev/topicDev.js',
   ],
 };
 

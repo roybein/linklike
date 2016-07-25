@@ -28662,13 +28662,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Topic = function Topic(_ref) {
   var text = _ref.text;
-  return _react2.default.createElement('li', null, text);
+  return _react2.default.createElement(
+    'li',
+    null,
+    text
+  );
 };
 
 Topic.propTypes = {
@@ -28688,36 +28690,36 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Notifi = require('./../components/Notifi');
+var _Topic = require('./../components/Topic');
 
-var _Notifi2 = _interopRequireDefault(_Notifi);
+var _Topic2 = _interopRequireDefault(_Topic);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NotifiList = function NotifiList(_ref) {
-  var notifis = _ref.notifis;
+var TopicList = function TopicList(_ref) {
+  var topics = _ref.topics;
   return _react2.default.createElement(
     'ul',
     null,
-    notifis.map(function (notifi) {
-      return _react2.default.createElement(_Notifi2.default, {
-        key: notifi.id,
-        text: notifi.topic
+    topics.map(function (topic) {
+      return _react2.default.createElement(_Topic2.default, {
+        key: topic.id,
+        text: topic.topic
       });
     })
   );
 };
 
-NotifiList.protoTypes = {
-  notifis: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+TopicList.protoTypes = {
+  topics: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     id: _react.PropTypes.number.isRequired,
     topic: _react.PropTypes.string.isRequired
   }).isRequired).isRequired
 };
 
-exports.default = NotifiList;
+exports.default = TopicList;
 
-},{"./../components/Notifi":495,"react":479}],497:[function(require,module,exports){
+},{"./../components/Topic":495,"react":479}],497:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28730,17 +28732,17 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NewNotifiForm = _react2.default.createClass({
-  displayName: "NewNotifiForm",
+var NewTopicForm = _react2.default.createClass({
+  displayName: "NewTopicForm",
 
   propTypes: {
     topic: _react.PropTypes.string.isRequired,
-    onAddNotifi: _react.PropTypes.func.isRequired
+    onAddTopic: _react.PropTypes.func.isRequired
   },
 
-  onAddNotifiClick: function onAddNotifiClick() {
-    console.log("onAddNotifiClick", this.inputTopic.value);
-    this.props.onAddNotifi(this.inputTopic.value);
+  onAddTopicClick: function onAddTopicClick() {
+    console.log("onAddTopicClick", this.inputTopic.value);
+    this.props.onAddTopic(this.inputTopic.value);
   },
 
   render: function render() {
@@ -28760,7 +28762,7 @@ var NewNotifiForm = _react2.default.createClass({
             null,
             "Topic"
           ),
-          _react2.default.createElement("input", { type: "text", placeholder: "topic of your notifi",
+          _react2.default.createElement("input", { type: "text", placeholder: "input the topic",
             ref: function ref(input) {
               _this.inputTopic = input;
             },
@@ -28771,8 +28773,8 @@ var NewNotifiForm = _react2.default.createClass({
           { className: "field" },
           _react2.default.createElement(
             "button",
-            { onClick: this.onAddNotifiClick },
-            "Add Notifi"
+            { onClick: this.onAddTopicClick },
+            "Add Topic"
           )
         )
       )
@@ -28780,7 +28782,7 @@ var NewNotifiForm = _react2.default.createClass({
   }
 });
 
-exports.default = NewNotifiForm;
+exports.default = NewTopicForm;
 
 },{"react":479}],498:[function(require,module,exports){
 'use strict';
@@ -28797,15 +28799,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _notifs = require('./../actions/notifs.js');
+var _topic = require('./../actions/topic.js');
 
-var _NotifiList = require('./../components/NotifiList');
+var _TopicList = require('./../components/TopicList');
 
-var _NotifiList2 = _interopRequireDefault(_NotifiList);
+var _TopicList2 = _interopRequireDefault(_TopicList);
 
-var _NewNotifiForm = require('./../containers/NewNotifiForm');
+var _NewTopicForm = require('./../containers/NewTopicForm');
 
-var _NewNotifiForm2 = _interopRequireDefault(_NewNotifiForm);
+var _NewTopicForm2 = _interopRequireDefault(_NewTopicForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28815,20 +28817,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var NotifiManager = function (_Component) {
-  _inherits(NotifiManager, _Component);
+var TopicManager = function (_Component) {
+  _inherits(TopicManager, _Component);
 
-  function NotifiManager() {
-    _classCallCheck(this, NotifiManager);
+  function TopicManager() {
+    _classCallCheck(this, TopicManager);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(NotifiManager).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(TopicManager).apply(this, arguments));
   }
 
-  _createClass(NotifiManager, [{
+  _createClass(TopicManager, [{
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var notifis = _props.notifis;
+      var topics = _props.topics;
       var topic = _props.topic;
 
       console.log(this.props);
@@ -28836,17 +28838,17 @@ var NotifiManager = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_NotifiList2.default, { notifis: notifis }),
-        _react2.default.createElement(_NewNotifiForm2.default, { topic: topic, onAddNotifi: this.props.onAddNotifi })
+        _react2.default.createElement(_TopicList2.default, { topics: topics }),
+        _react2.default.createElement(_NewTopicForm2.default, { topic: topic, onAddTopic: this.props.onAddTopic })
       );
     }
   }]);
 
-  return NotifiManager;
+  return TopicManager;
 }(_react.Component);
 
-NotifiManager.protoTypes = {
-  notifis: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+TopicManager.protoTypes = {
+  topics: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     id: _react.PropTypes.number.isRequired,
     topic: _react.PropTypes.string.isRequired
   }).isRequired).isRequired,
@@ -28855,23 +28857,23 @@ NotifiManager.protoTypes = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    notifis: state.notifisFetchReducer.notifis,
-    topic: state.notifiNewReducer.topic
+    topics: state.topicsFetchReducer.topics,
+    topic: state.topicNewReducer.topic
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    onAddNotifi: function onAddNotifi(topic) {
-      console.log("onAddNotifi", topic);
-      dispatch((0, _notifs.newNotifi)(1, topic));
+    onAddTopic: function onAddTopic(topic) {
+      console.log("onAddTopic", topic);
+      dispatch((0, _topic.newTopic)(1, topic));
     }
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NotifiManager);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TopicManager);
 
-},{"./../actions/notifs.js":494,"./../components/NotifiList":496,"./../containers/NewNotifiForm":497,"react":479,"react-redux":302}],499:[function(require,module,exports){
+},{"./../actions/topic.js":494,"./../components/TopicList":496,"./../containers/NewTopicForm":497,"react":479,"react-redux":302}],499:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28882,28 +28884,28 @@ var _redux = require('redux');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var notifisFetchReducer = function notifisFetchReducer() {
+var topicsFetchReducer = function topicsFetchReducer() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {
     isFeteching: false,
-    notifis: []
+    topics: []
   } : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
     case 'GET_FAKE_NOTIFIS':
-      return Object.assign({}, state, { notifis: action.notifis });
+      return Object.assign({}, state, { topics: action.topics });
     case 'REQUEST_NOTIFIS':
       return Object.assign({}, state, { isFeteching: true });
     case 'RECEIVE_NOTIFIS':
-      return Object.assign({}, state, { notifis: action.notifis });
+      return Object.assign({}, state, { topics: action.topics });
     case 'NEW_NOTIFI_DONE':
-      return Object.assign({}, state, { notifis: [].concat(_toConsumableArray(state.notifis), [action.notifi]) });
+      return Object.assign({}, state, { topics: [].concat(_toConsumableArray(state.topics), [action.topic]) });
     default:
       return state;
   }
 };
 
-var notifiNewReducer = function notifiNewReducer() {
+var topicNewReducer = function topicNewReducer() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {
     isAdding: false,
     topic: ""
@@ -28920,12 +28922,12 @@ var notifiNewReducer = function notifiNewReducer() {
   }
 };
 
-var notifiReducer = (0, _redux.combineReducers)({
-  notifisFetchReducer: notifisFetchReducer,
-  notifiNewReducer: notifiNewReducer
+var topicReducer = (0, _redux.combineReducers)({
+  topicsFetchReducer: topicsFetchReducer,
+  topicNewReducer: topicNewReducer
 });
 
-exports.default = notifiReducer;
+exports.default = topicReducer;
 
 },{"redux":486}],500:[function(require,module,exports){
 'use strict';
@@ -28946,26 +28948,26 @@ var _reduxThunk = require('redux-thunk');
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _notifs = require('./../../actions/notifs');
+var _topic = require('./../../actions/topic.js');
 
-var _notifiReducer = require('./../../reducers/notifiReducer');
+var _topicReducer = require('./../../reducers/topicReducer');
 
-var _notifiReducer2 = _interopRequireDefault(_notifiReducer);
+var _topicReducer2 = _interopRequireDefault(_topicReducer);
 
-var _NotifiManager = require('./../../containers/NotifiManager');
+var _TopicManager = require('./../../containers/TopicManager');
 
-var _NotifiManager2 = _interopRequireDefault(_NotifiManager);
+var _TopicManager2 = _interopRequireDefault(_TopicManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_notifiReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+var store = (0, _redux.createStore)(_topicReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-store.dispatch((0, _notifs.fetchNotifis)());
+store.dispatch((0, _topic.fetchTopics)());
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
-  _react2.default.createElement(_NotifiManager2.default, null)
-), document.getElementById('notifiList'));
+  _react2.default.createElement(_TopicManager2.default, null)
+), document.getElementById('topicList'));
 
-},{"./../../actions/notifs":494,"./../../containers/NotifiManager":498,"./../../reducers/notifiReducer":499,"babel-polyfill":1,"react":479,"react-dom":299,"react-redux":302,"redux":486,"redux-thunk":480}]},{},[500]);
+},{"./../../actions/topic.js":494,"./../../containers/TopicManager":498,"./../../reducers/topicReducer":499,"babel-polyfill":1,"react":479,"react-dom":299,"react-redux":302,"redux":486,"redux-thunk":480}]},{},[500]);

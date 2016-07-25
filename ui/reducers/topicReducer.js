@@ -1,24 +1,24 @@
 import {combineReducers } from 'redux'
 
-const notifisFetchReducer = (state = {
+const topicsFetchReducer = (state = {
   isFeteching: false,
-  notifis: []
+  topics: []
 }, action) => {
   switch (action.type) {
     case 'GET_FAKE_NOTIFIS':
-      return Object.assign({}, state, {notifis: action.notifis});
+      return Object.assign({}, state, {topics: action.topics});
     case 'REQUEST_NOTIFIS':
       return Object.assign({}, state, {isFeteching: true});
     case 'RECEIVE_NOTIFIS':
-      return Object.assign({}, state, {notifis: action.notifis});
+      return Object.assign({}, state, {topics: action.topics});
     case 'NEW_NOTIFI_DONE':
-      return Object.assign({}, state, {notifis: [...state.notifis, action.notifi]});
+      return Object.assign({}, state, {topics: [...state.topics, action.topic]});
     default:
       return state;
   }
 }
 
-const notifiNewReducer = (state = {
+const topicNewReducer = (state = {
   isAdding: false,
   topic: ""
 }, action) => {
@@ -32,9 +32,9 @@ const notifiNewReducer = (state = {
   }
 }
 
-const notifiReducer = combineReducers({
-  notifisFetchReducer,
-  notifiNewReducer
+const topicReducer = combineReducers({
+  topicsFetchReducer,
+  topicNewReducer
 })
 
-export default notifiReducer
+export default topicReducer

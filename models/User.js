@@ -1,5 +1,5 @@
 'use strict';
-var Notifi = require('./Notifi.js');
+var Topic = require('./Topic.js');
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('user',

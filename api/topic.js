@@ -18,18 +18,18 @@ exports.fetch = function(req, res) {
     //logger.trace("username:", username);
     var conditions = {};
     if(username === undefined) {
-      logger.trace("fetch notifis of currentUser");
+      logger.trace("fetch topics of currentUser");
       conditions.id = req.user;
     } else {
-      logger.trace("fetch notifis of", username);
+      logger.trace("fetch topics of", username);
       conditions.username = username;
     }
     
     User.findOne({where: conditions}).then(function(user) {
       //logger.trace(user);
-      user.getPubs().then(function(notifis) {
-        //logger.trace(notifis);
-        workflow.outcome.data = notifis;
+      user.getPubs().then(function(topics) {
+        //logger.trace(topics);
+        workflow.outcome.data = topics;
         return workflow.emit('response');
       });
     });
@@ -58,9 +58,9 @@ exports.new = function(req, res) {
         return workflow.emit('response');
       }
 
-      Notifi.create({topic: topic}).then(function(notifi) {
-        notifi.addPubber(user);
-        workflow.outcome.data = {notifi: notifi};
+      Notifi.create({topic: topic}).then(function(topic) {
+        topic.addPubber(user);
+        workflow.outcome.data = {topic: topic};
         return workflow.emit('response');
       });
     });    
@@ -74,7 +74,7 @@ exports.link = function(req, res) {
   var Notifi = req.app.db.models.Notifi;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
-  var notifiId = req.body.notifiId;
+  var topicId = req.body.topicId;
   var userId = req.body.userId;
 
   workflow.on('validate', function() {
@@ -89,13 +89,13 @@ exports.link = function(req, res) {
         return workflow.emit('response');
       }
 
-      Notifi.findOne({where: {id: notifiId}}).then(function(notifi) {
-        if (notifi === null) {
-          workflow.outcome.errors.push('invalid notifiId');
+      Notifi.findOne({where: {id: topicId}}).then(function(topic) {
+        if (topic === null) {
+          workflow.outcome.errors.push('invalid topicId');
           return workflow.emit('response');
         }
           
-        notifi.addSubber(user);
+        topic.addSubber(user);
         return workflow.emit('response');
       });
     });    
