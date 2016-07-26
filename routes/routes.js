@@ -15,6 +15,7 @@ router.get('/logout', require('./logout').init);
 router.post('/data', require('./data').fetch);
 router.post('/topic/new', require('./../api/topic').new);
 router.post('/topic/fetch', require('./../api/topic').fetch);
-router.post('/topic/link', require('./../api/topic').link);
+router.post('/topic/addSubber', require('./../api/topic').addSubber);
+router.post('/topic/addPubber', require('./../api/topic').addPubber);
 
 module.exports = router;

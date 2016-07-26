@@ -44,7 +44,12 @@ exports.new = function(req, res) {
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
   var topic = req.body.topic;
-  var userId = req.body.userId;
+
+//TODO: bind with current user, now for dev
+  var userId = req.user;
+  if (userId === undefined) {
+    userId = req.body.userId;
+  }
 
   workflow.on('validate', function() {
     //TODO: validate
@@ -69,20 +74,52 @@ exports.new = function(req, res) {
   workflow.emit('validate');
 };
 
-exports.link = function(req, res) {
-  logger.trace(req.body);
-  var Topic = req.app.db.models.Topic;
-  var User = req.app.db.models.User;
-  var workflow = req.app.utility.workflow(req, res);
+exports.addPubber = function(req, res) {
   var topicId = req.body.topicId;
   var userId = req.body.userId;
+  var workflow = req.app.utility.workflow(req, res);
+  var Topic = req.app.db.models.Topic;
+  var User = req.app.db.models.User;
 
   workflow.on('validate', function() {
     //TODO: validate
-    workflow.emit('link');
+    workflow.emit('addPubber');
   });
 
-  workflow.on('link', function() {
+  workflow.on('addPubber', function() {
+    Topic.findOne({where: {id: topicId}}).then(function(topic) {
+      if (topic === null) {
+        workflow.outcome.errors.push('invalid topicId');
+        return workflow.emit('response');
+      }
+      User.findOne({where: {id: userId}}).then(function(user) {
+        if (user === null) {
+          workflow.outcome.errors.push('invalid userId');
+          return workflow.emit('response');
+        }
+        topic.addPubber(user);
+        return workflow.emit('response');
+      });
+    });
+  });
+
+  workflow.emit('validate');
+};
+
+exports.addSubber = function(req, res) {
+  logger.trace(req.body);
+  var topicId = req.body.topicId;
+  var userId = req.body.userId;
+  var Topic = req.app.db.models.Topic;
+  var User = req.app.db.models.User;
+  var workflow = req.app.utility.workflow(req, res);
+
+  workflow.on('validate', function() {
+    //TODO: validate
+    workflow.emit('addSubber');
+  });
+
+  workflow.on('addSubber', function() {
     User.findOne({where: {id: userId}}).then(function(user) {
       if (user === null) {
         workflow.outcome.errors.push('invalid userId');
