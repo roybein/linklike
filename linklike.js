@@ -9,8 +9,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var csrf = require('csurf');
 var passport = require('passport');
-var mongoose = require('mongoose');
-var mongoStore = require('connect-mongo')(session);
+//var mongoose = require('mongoose');
+//var mongoStore = require('connect-mongo')(session);
 var ioredis = require('ioredis');
 
 var config = require('./config');
@@ -42,8 +42,8 @@ app.use(cookieParser(config.cryptoKey));
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: config.cryptoKey,
-  store: new mongoStore({ url: config.mongodb.uri })
+  secret: config.cryptoKey
+//  store: new mongoStore({ url: config.mongodb.uri })
 }));
 
 
@@ -117,7 +117,7 @@ app.utility.workflow = require('./utils/workflow');
 app.utility.redis = new ioredis();
 
 var emqttManagerTest = require('./api/emqttManagerTest.js');
-emqttManagerTest.run("http://localhost:18083", app.utility.redis);
+//emqttManagerTest.run("http://localhost:18083", app.utility.redis);
 
 //rawdata = require('./utils/rawdata/rawdata.js');
 //rawdata.start('mqtt_node_pek2.0x61.me', app.utility.redis);

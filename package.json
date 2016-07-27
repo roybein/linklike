@@ -44,6 +44,7 @@
     "browserify": "^13.0.1",
     "del": "^2.2.1",
     "fittext.js": "^1.2.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-help": "^1.6.1",
@@ -59,6 +60,7 @@
     "path": "^0.12.7",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "request": "^2.74.0",
     "vinyl-source-stream": "^1.1.0",
     "vinyl-transform": "^1.0.0",
     "watchify": "^3.7.0"
