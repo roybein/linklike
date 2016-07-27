@@ -115,8 +115,10 @@ app.utility.sendmail = require('./utils/sendmail');
 app.utility.slugify = require('./utils/slugify');
 app.utility.workflow = require('./utils/workflow');
 app.utility.redis = new ioredis();
+app.utility.emqttManager = require('./utils/emqttManager/emqttManager.js');
+app.utility.emqttManager.init(app.config.emqtt.uri, app.utility.redis);
 
-var emqttManagerTest = require('./api/emqttManagerTest.js');
+//emqttManagerTest = require('./api/emqttManagerTest.js');
 //emqttManagerTest.run("http://localhost:18083", app.utility.redis);
 
 //rawdata = require('./utils/rawdata/rawdata.js');
