@@ -18,7 +18,12 @@ exports.fetch = function(req, res) {
     //logger.trace("username:", username);
     var conditions = {};
     if(username === undefined) {
-      logger.trace("fetch topics of currentUser");
+      logger.trace("no username param, try to fetch topics of currentUser");
+      if (req.user === undefined) {
+        logger.trace("no currentUser login");
+        workflow.outcome.errors.push('invalid userId');
+        return workflow.emit('response');
+      }
       conditions.id = req.user;
     } else {
       logger.trace("fetch topics of", username);
@@ -45,7 +50,7 @@ exports.new = function(req, res) {
   var workflow = req.app.utility.workflow(req, res);
   var topic = req.body.topic;
 
-//TODO: bind with current user, now for dev
+  //TODO: bind with current user, now for dev
   var userId = req.user;
   if (userId === undefined) {
     userId = req.body.userId;
@@ -65,6 +70,7 @@ exports.new = function(req, res) {
 
       Topic.create({topic: topic}).then(function(topic) {
         topic.addPubber(user);
+        topic.addSubber(user);
         workflow.outcome.data = {topic: topic};
         return workflow.emit('response');
       });
@@ -106,6 +112,34 @@ exports.addPubber = function(req, res) {
   workflow.emit('validate');
 };
 
+exports.getPubbers = function(req, res) {
+  var topicId = req.body.topicId;
+  var workflow = req.app.utility.workflow(req, res);
+  var Topic = req.app.db.models.Topic;
+  var User = req.app.db.models.User;
+
+  workflow.on('validate', function() {
+    //TODO: validate
+    workflow.emit('getPubbers');
+  });
+
+  workflow.on('getPubbers', function() {
+    Topic.findOne({where: {id: topicId}}).then(function(topic) {
+      if (topic === null) {
+        workflow.outcome.errors.push('invalid topicId');
+        return workflow.emit('response');
+      }
+      topic.getPubbers().then( function(users) {
+        logger.trace(users);
+        workflow.outcome.data = users;
+        return workflow.emit('response');
+      });
+    });
+  });
+
+  workflow.emit('validate');
+};
+
 exports.addSubber = function(req, res) {
   logger.trace(req.body);
   var topicId = req.body.topicId;
@@ -136,6 +170,34 @@ exports.addSubber = function(req, res) {
         return workflow.emit('response');
       });
     });    
+  });
+
+  workflow.emit('validate');
+};
+
+exports.getSubbers = function(req, res) {
+  var topicId = req.body.topicId;
+  var workflow = req.app.utility.workflow(req, res);
+  var Topic = req.app.db.models.Topic;
+  var User = req.app.db.models.User;
+
+  workflow.on('validate', function() {
+    //TODO: validate
+    workflow.emit('getSubbers');
+  });
+
+  workflow.on('getSubbers', function() {
+    Topic.findOne({where: {id: topicId}}).then(function(topic) {
+      if (topic === null) {
+        workflow.outcome.errors.push('invalid topicId');
+        return workflow.emit('response');
+      }
+      topic.getSubbers().then( function(users) {
+        logger.trace(users);
+        workflow.outcome.data = users;
+        return workflow.emit('response');
+      });
+    });
   });
 
   workflow.emit('validate');

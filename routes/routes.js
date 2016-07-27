@@ -17,5 +17,7 @@ router.post('/topic/new', require('./../api/topic').new);
 router.post('/topic/fetch', require('./../api/topic').fetch);
 router.post('/topic/addSubber', require('./../api/topic').addSubber);
 router.post('/topic/addPubber', require('./../api/topic').addPubber);
+router.post('/topic/getPubbers', require('./../api/topic').getPubbers);
+router.post('/topic/getSubbers', require('./../api/topic').getSubbers);
 
 module.exports = router;
