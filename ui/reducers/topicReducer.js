@@ -1,24 +1,24 @@
 import {combineReducers } from 'redux'
 
-const topicsFetchReducer = (state = {
-  isFeteching: false,
-  topics: []
+const getPubbeesReducer = (state = {
+  isGetting: false,
+  pubbees: []
 }, action) => {
   switch (action.type) {
-    case 'GET_FAKE_NOTIFIS':
-      return Object.assign({}, state, {topics: action.topics});
-    case 'REQUEST_NOTIFIS':
-      return Object.assign({}, state, {isFeteching: true});
-    case 'RECEIVE_NOTIFIS':
-      return Object.assign({}, state, {topics: action.topics});
+    case 'GET_FAKE_PUBBEES':
+      return Object.assign({}, state, {pubbees: action.pubbees});
+    case 'GET_PUBBEES_START':
+      return Object.assign({}, state, {isGetting: true});
+    case 'GET_PUBBEES_DONE':
+      return Object.assign({}, state, {pubbees: action.pubbees});
     case 'NEW_NOTIFI_DONE':
-      return Object.assign({}, state, {topics: [...state.topics, action.topic]});
+      return Object.assign({}, state, {pubbees: [...state.pubbees, action.topic]});
     default:
       return state;
   }
 }
 
-const topicNewReducer = (state = {
+const addPubbeeReducer = (state = {
   isAdding: false,
   topic: ""
 }, action) => {
@@ -33,8 +33,8 @@ const topicNewReducer = (state = {
 }
 
 const topicReducer = combineReducers({
-  topicsFetchReducer,
-  topicNewReducer
+  getPubbeesReducer,
+  addPubbeeReducer
 })
 
 export default topicReducer

@@ -91,14 +91,14 @@ gulp.task('watch', function() {
       //var name = path.basename(e);
       var name = e;
       b.transform("babelify", {presets: ["es2015", "react"]})
-      .bundle().on('error', function(err) {
+      .bundle(function(err, buf) {
+        gutil.log("bundled", gutil.colors.blue(name));
+      }).on('error', function(err) {
         gutil.log("Browserify Error", gutil.colors.yellow(err.message));
         this.emit('end');
       })
       .pipe(source(name))
       .pipe(gulp.dest(env.DEST));
-
-      console.log("bundled", entrie);
     }
   });
 });

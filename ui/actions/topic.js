@@ -1,12 +1,12 @@
-export const REQUEST_NOTIFIS = "REQUEST_NOTIFIS";
-export const RECEIVE_NOTIFIS = "RECEIVE_NOTIFIS";
+export const GET_PUBBEES_START = "GET_PUBBEES_START";
+export const GET_PUBBEES_DONE = "GET_PUBBEES_DONE";
 export const NEW_NOTIFI_DONE = "NEW_NOTIFI_DONE";
 export const NEW_NOTIFI_START = "NEW_NOTIFI_START";
 
-export const getAllTopics = () => {
+export const getFakePubbees = () => {
   return {
-    type: 'GET_FAKE_NOTIFIS',
-    topics:  [
+    type: 'GET_FAKE_PUBBEES',
+    pubbees:  [
       {id: 1, topic: 'sun set'},
       {id: 2, topic: 'bird fly'},
       {id: 3, topic: 'dog feeded'}
@@ -14,20 +14,20 @@ export const getAllTopics = () => {
   }
 }
 
-function requestTopics(username, searchWord) {
+function getPubbeesStart(username, searchWord) {
   return {
-    type: REQUEST_NOTIFIS,
+    type: GET_PUBBEES_START,
     username,
     searchWord
   };
 }
 
-function receiveTopics(username, searchWord, topics) {
+function getPubbeesDone(username, searchWord, pubbees) {
   return {
-    type: RECEIVE_NOTIFIS,
+    type: GET_PUBBEES_DONE,
     username,
     searchWord,
-    topics: topics
+    pubbees: pubbees
   };
 }
 
@@ -38,17 +38,17 @@ export function addTopicDone(topic) {
   };
 }
 
-export function fetchTopics(username, searchWord) {
+export function getPubbees(username, searchWord) {
   return dispatch => {
-    dispatch(requestTopics(username, searchWord));
-    return $.post("/topic/fetch",
+    dispatch(getPubbeesStart(username, searchWord));
+    return $.post("/user/getPubbees",
       {
         username: username,
         searchWord: searchWord
       },
       function(res, status) {
         //console.log(res.data);
-        dispatch(receiveTopics(username, searchWord, res.data));
+        dispatch(getPubbeesDone(username, searchWord, res.data));
       }
     );
   }
@@ -61,10 +61,10 @@ function newTopicStart(topic) {
   }
 }
 
-export function newTopic(userId, topic) {
+export function addPubbee(userId, topic) {
   return dispatch => {
     dispatch(newTopicStart(topic));
-    return $.post("/topic/new",
+    return $.post("/user/addPubbee",
       {
         userId: userId,
         topic: topic
