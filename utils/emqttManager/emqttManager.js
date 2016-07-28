@@ -7,7 +7,7 @@ var emqttManager = {
   init: function(emqtt_uri, emqtt_redis) {
     this.emqtt_uri = emqtt_uri; 
     this.emqtt_redis = emqtt_redis;
-    logger.trace("link emqtt", emqtt_uri);
+    logger.trace("emqtt", emqtt_uri);
   },
 
   getTopics: function(callback) {

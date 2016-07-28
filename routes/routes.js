@@ -13,8 +13,11 @@ router.post('/signup/', require('./signup').signup);
 router.get('/logout', require('./logout').init);
 
 router.post('/data', require('./data').fetch);
-router.post('/topic/new', require('./../api/topic').new);
-router.post('/topic/fetch', require('./../api/topic').fetch);
+router.post('/user/addPubbee', require('./../api/user').addPubbee);
+router.post('/user/getPubbees', require('./../api/user').getPubbees);
+router.post('/user/addSubbee', require('./../api/user').addSubbee);
+router.post('/user/getSubbees', require('./../api/user').getSubbees);
+
 router.post('/topic/addSubber', require('./../api/topic').addSubber);
 router.post('/topic/addPubber', require('./../api/topic').addPubber);
 router.post('/topic/getPubbers', require('./../api/topic').getPubbers);
