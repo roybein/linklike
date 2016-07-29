@@ -7,13 +7,14 @@ import NewTopicForm from './../containers/NewTopicForm'
 class TopicManager extends Component {
 
   render() {
-    const {pubbees, pubbeeToAdd} = this.props;
+    const {pubbees, pubbeeToAdd, subbees} = this.props;
     console.log(this.props);
 
     return (
       <div>
         <TopicList topics={pubbees} />
-        <NewTopicForm topic={pubbeeToAdd} onAddTopic={this.props.onAddTopic}/>
+        <NewTopicForm topic={pubbeeToAdd} onAddTopic={this.props.onAddPubbee}/>
+        <TopicList topics={subbees} />
       </div>
     );
   }
@@ -24,20 +25,25 @@ TopicManager.protoTypes = {
     id: PropTypes.number.isRequired,
     topic: PropTypes.string.isRequired
   }).isRequired).isRequired,
-  pubbeeToAdd: PropTypes.string.isRequired
+  pubbeeToAdd: PropTypes.string.isRequired,
+  subbees: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    topic: PropTypes.string.isRequired
+  }).isRequired).isRequired,
 }
 
 const mapStateToProps = (state) => {
   return {
     pubbees: state.getPubbeesReducer.pubbees,
-    pubbeeToAdd: state.addPubbeeReducer.topic
+    pubbeeToAdd: state.addPubbeeReducer.pubbeeToAdd,
+    subbees: state.getSubbeesReducer.subbees
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddTopic: (topic) => {
-      console.log("onAddTopic", topic);
+    onAddPubbee: (topic) => {
+      console.log("onAddPubbee", topic);
       dispatch(addPubbee(undefined, topic));
     }
   }  

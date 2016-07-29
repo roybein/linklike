@@ -1,7 +1,9 @@
 export const GET_PUBBEES_START = "GET_PUBBEES_START";
 export const GET_PUBBEES_DONE = "GET_PUBBEES_DONE";
-export const NEW_NOTIFI_DONE = "NEW_NOTIFI_DONE";
-export const NEW_NOTIFI_START = "NEW_NOTIFI_START";
+export const ADD_PUBBEE_DONE = "ADD_PUBBEE_DONE";
+export const ADD_PUBBEE_START = "ADD_PUBBEE_START";
+export const GET_SUBBEES_START = "GET_SUBBEES_START";
+export const GET_SUBBEES_DONE = "GET_SUBBEES_DONE";
 
 export const getFakePubbees = () => {
   return {
@@ -31,13 +33,6 @@ function getPubbeesDone(username, searchWord, pubbees) {
   };
 }
 
-export function addTopicDone(topic) {
-  return {
-    type: NEW_NOTIFI_DONE,
-    topic
-  };
-}
-
 export function getPubbees(username, searchWord) {
   return dispatch => {
     dispatch(getPubbeesStart(username, searchWord));
@@ -54,16 +49,23 @@ export function getPubbees(username, searchWord) {
   }
 }
 
-function newTopicStart(topic) {
+function addPubbeeStart(topic) {
   return {
-    type: NEW_NOTIFI_START,
+    type: ADD_PUBBEE_START,
     topic
   }
 }
 
+function addPubbeeDone(topic) {
+  return {
+    type: ADD_PUBBEE_DONE,
+    topic
+  };
+}
+
 export function addPubbee(userId, topic) {
   return dispatch => {
-    dispatch(newTopicStart(topic));
+    dispatch(addPubbeeStart(topic));
     return $.post("/user/addPubbee",
       {
         userId: userId,
@@ -71,7 +73,40 @@ export function addPubbee(userId, topic) {
       },
       function(res, status) {
         //console.log(res);
-        dispatch(addTopicDone(res.data.topic));
+        dispatch(addPubbeeDone(res.data.topic));
       });
+  }
+}
+
+function getSubbeesStart(username, searchWord) {
+  return {
+    type: GET_SUBBEES_START,
+    username,
+    searchWord
+  };
+}
+
+function getSubbeesDone(username, searchWord, subbees) {
+  return {
+    type: GET_SUBBEES_DONE,
+    username,
+    searchWord,
+    subbees: subbees
+  };
+}
+
+export function getSubbees(username, searchWord) {
+  return dispatch => {
+    dispatch(getSubbeesStart(username, searchWord));
+    return $.post("/user/getSubbees",
+      {
+        username: username,
+        searchWord: searchWord
+      },
+      function(res, status) {
+        //console.log(res.data);
+        dispatch(getSubbeesDone(username, searchWord, res.data));
+      }
+    );
   }
 }
