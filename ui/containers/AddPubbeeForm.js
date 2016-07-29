@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-var NewTopicForm  = React.createClass({
+var AddPubbeeForm  = React.createClass({
   propTypes: {
     topic: PropTypes.string.isRequired,
     onAddTopic: PropTypes.func.isRequired
@@ -16,13 +16,13 @@ var NewTopicForm  = React.createClass({
       <div className="container">
         <div className="ui form segment">
           <div className="field">
-            <label>Topic</label>
+            <label>Topic String</label>
             <input type="text" placeholder="input the topic"
               ref={ (input) => {this.inputTopic = input}}
               defaultValue={this.props.topic} />
           </div>
           <div className="field">
-            <button onClick={this.onAddTopicClick} >Add Topic</button>
+            <button onClick={this.onAddTopicClick} >Add Pubbee</button>
           </div>
         </div>
       </div>
@@ -30,4 +30,4 @@ var NewTopicForm  = React.createClass({
   }
 });
 
-export default NewTopicForm;
+export default AddPubbeeForm;

@@ -110,7 +110,7 @@ exports.addSubbee = function(req, res) {
         return workflow.emit('response');
       }
 
-      Topic.findOne({id: topicId}).then(function(topic) {
+      Topic.findOne({where: {id: topicId}}).then(function(topic) {
         user.addSubbee(topic);
         workflow.outcome.data = {user: user, topic: topic};
         return workflow.emit('response');
@@ -118,6 +118,8 @@ exports.addSubbee = function(req, res) {
     });    
   
   });
+
+  workflow.emit('validate');
 }
 
 exports.getSubbees = function(req, res) {

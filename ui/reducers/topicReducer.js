@@ -24,7 +24,9 @@ const pubbeesReducer = (state = {
 
 const subbeesReducer = (state = {
   isGetSubbees: false,
-  subbees: []
+  subbees: [],
+  isAddSubbee: false,
+  subbeeToAdd: ""
 }, action) => {
   switch (action.type) {
     case 'GET_FAKE_SUBBEES':
@@ -32,9 +34,11 @@ const subbeesReducer = (state = {
     case 'GET_SUBBEES_START':
       return Object.assign({}, state, {isGetSubbees: true});
     case 'GET_SUBBEES_DONE':
-      return Object.assign({}, state, {subbees: action.subbees});
+      return Object.assign({}, state, {subbees: action.subbees, isAddSubbee: false});
+    case 'ADD_SUBBEE_START':
+      return Object.assign({}, state, {isAddSubbee: true});
     case 'ADD_SUBBEE_DONE':
-      return Object.assign({}, state, {subbees: [...state.subbees, action.topic]});
+      return Object.assign({}, state, {subbees: [...state.subbees, action.topic], isAddSubbee: false, subbeeToAdd: ""});
     default:
       return state;
   }

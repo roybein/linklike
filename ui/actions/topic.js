@@ -4,6 +4,8 @@ export const ADD_PUBBEE_DONE = "ADD_PUBBEE_DONE";
 export const ADD_PUBBEE_START = "ADD_PUBBEE_START";
 export const GET_SUBBEES_START = "GET_SUBBEES_START";
 export const GET_SUBBEES_DONE = "GET_SUBBEES_DONE";
+export const ADD_SUBBEE_DONE = "ADD_SUBBEE_DONE";
+export const ADD_SUBBEE_START = "ADD_SUBBEE_START";
 
 export const getFakePubbees = () => {
   return {
@@ -108,5 +110,34 @@ export function getSubbees(username, searchWord) {
         dispatch(getSubbeesDone(username, searchWord, res.data));
       }
     );
+  }
+}
+
+function addSubbeeStart(topicId) {
+  return {
+    type: ADD_SUBBEE_START,
+    topicId
+  }
+}
+
+function addSubbeeDone(topic) {
+  return {
+    type: ADD_SUBBEE_DONE,
+    topic
+  };
+}
+
+export function addSubbee(userId, topicId) {
+  return dispatch => {
+    dispatch(addSubbeeStart(topicId));
+    return $.post("/user/addSubbee",
+      {
+        userId: userId,
+        topicId: topicId
+      },
+      function(res, status) {
+        //console.log(res);
+        dispatch(addSubbeeDone(res.data.topic));
+      });
   }
 }

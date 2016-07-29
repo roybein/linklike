@@ -7,7 +7,7 @@ const TopicList = ({ topics }) => (
     {topics.map(topic =>
       <Topic
         key={topic.id}
-        text={topic.topic}
+        text={topic.id +":" + topic.topic}
       />
     )}
   </ul>

@@ -1,20 +1,22 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import { addPubbee } from './../actions/topic.js'
+import { addPubbee, addSubbee } from './../actions/topic.js'
 import TopicList from './../components/TopicList'
-import NewTopicForm from './../containers/NewTopicForm'
+import AddPubbeeForm from './../containers/AddPubbeeForm'
+import AddSubbeeForm from './../containers/AddSubbeeForm'
 
 class TopicManager extends Component {
 
   render() {
-    const {pubbees, pubbeeToAdd, subbees} = this.props;
+    const {pubbees, pubbeeToAdd, subbees, subbeeToAdd} = this.props;
     console.log(this.props);
 
     return (
       <div>
         <TopicList topics={pubbees} />
-        <NewTopicForm topic={pubbeeToAdd} onAddTopic={this.props.onAddPubbee}/>
+        <AddPubbeeForm topic={pubbeeToAdd} onAddTopic={this.props.onAddPubbee}/>
         <TopicList topics={subbees} />
+        <AddSubbeeForm topicId={subbeeToAdd} onAddTopic={this.props.onAddSubbee}/>
       </div>
     );
   }
@@ -30,13 +32,15 @@ TopicManager.protoTypes = {
     id: PropTypes.number.isRequired,
     topic: PropTypes.string.isRequired
   }).isRequired).isRequired,
+  subbeeToAdd: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => {
   return {
     pubbees: state.pubbeesReducer.pubbees,
     pubbeeToAdd: state.pubbeesReducer.pubbeeToAdd,
-    subbees: state.subbeesReducer.subbees
+    subbees: state.subbeesReducer.subbees,
+    subbeeToAdd: state.subbeesReducer.subbeeToAdd,
   }
 }
 
@@ -45,6 +49,10 @@ const mapDispatchToProps = (dispatch) => {
     onAddPubbee: (topic) => {
       console.log("onAddPubbee", topic);
       dispatch(addPubbee(undefined, topic));
+    },
+    onAddSubbee: (topicId) => {
+      console.log("onAddSubbee", topicId);
+      dispatch(addSubbee(undefined, topicId));
     }
   }  
 }
