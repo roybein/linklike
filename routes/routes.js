@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', require('./topicDev').get);
-router.get('/topicDev', require('./topicDev').get);
+router.get('/', require('./user').get);
+router.get('/user', require('./user').get);
 
 router.get('/neuriteSensor', require('./neuriteSensor.js').get);
 
