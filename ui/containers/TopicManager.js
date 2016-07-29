@@ -34,9 +34,9 @@ TopicManager.protoTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    pubbees: state.getPubbeesReducer.pubbees,
-    pubbeeToAdd: state.addPubbeeReducer.pubbeeToAdd,
-    subbees: state.getSubbeesReducer.subbees
+    pubbees: state.pubbeesReducer.pubbees,
+    pubbeeToAdd: state.pubbeesReducer.pubbeeToAdd,
+    subbees: state.subbeesReducer.subbees
   }
 }
 

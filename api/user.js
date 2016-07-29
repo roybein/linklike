@@ -33,7 +33,8 @@ exports.addPubbee = function(req, res) {
 
       Topic.create({topic: topic}).then(function(topic) {
         user.addPubbee(topic);
-        user.addSubbee(topic);
+        //TODO: consider if addSubbee here
+        //user.addSubbee(topic);
         workflow.outcome.data = {user: user, topic: topic};
         return workflow.emit('response');
       });
@@ -71,7 +72,7 @@ exports.getPubbees = function(req, res) {
         workflow.outcome.errors.push('invalid userId');
         return workflow.emit('response');
       }
-      user.getSubbees().then(function(topics) {
+      user.getPubbees().then(function(topics) {
         workflow.outcome.data = topics;
         return workflow.emit('response');
       });
@@ -146,7 +147,7 @@ exports.getSubbees = function(req, res) {
         workflow.outcome.errors.push('invalid userId');
         return workflow.emit('response');
       }
-      user.getPubbees().then(function(topics) {
+      user.getSubbees().then(function(topics) {
         workflow.outcome.data = topics;
         return workflow.emit('response');
       });

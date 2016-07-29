@@ -1,8 +1,10 @@
 import {combineReducers } from 'redux'
 
-const getPubbeesReducer = (state = {
+const pubbeesReducer = (state = {
   isGetPubbees: false,
-  pubbees: []
+  pubbees: [],
+  isAddPubbee: false,
+  pubbeeToAdd: ""
 }, action) => {
   switch (action.type) {
     case 'GET_FAKE_PUBBEES':
@@ -10,29 +12,17 @@ const getPubbeesReducer = (state = {
     case 'GET_PUBBEES_START':
       return Object.assign({}, state, {isGetPubbees: true});
     case 'GET_PUBBEES_DONE':
-      return Object.assign({}, state, {pubbees: action.pubbees});
-    case 'ADD_PUBBEE_DONE':
-      return Object.assign({}, state, {pubbees: [...state.pubbees, action.topic]});
-    default:
-      return state;
-  }
-}
-
-const addPubbeeReducer = (state = {
-  isAdding: false,
-  pubbeeToAdd: ""
-}, action) => {
-  switch (action.type) {
+      return Object.assign({}, state, {pubbees: action.pubbees, isGetPubbees: false});
     case 'ADD_PUBBEE_START':
-      return Object.assign({}, state, {isAdding: true});
+      return Object.assign({}, state, {isAddPubbee: true});
     case 'ADD_PUBBEE_DONE':
-      return Object.assign({}, state, {pubbeeToAdd: ""});
+      return Object.assign({}, state, {pubbees: [...state.pubbees, action.topic], isAddPubbee: false, pubbeeToAdd: ""});
     default:
       return state;
   }
 }
 
-const getSubbeesReducer = (state = {
+const subbeesReducer = (state = {
   isGetSubbees: false,
   subbees: []
 }, action) => {
@@ -51,9 +41,8 @@ const getSubbeesReducer = (state = {
 }
 
 const topicReducer = combineReducers({
-  getPubbeesReducer,
-  addPubbeeReducer,
-  getSubbeesReducer
+  pubbeesReducer,
+  subbeesReducer
 })
 
 export default topicReducer

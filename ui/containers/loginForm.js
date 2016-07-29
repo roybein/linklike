@@ -5,7 +5,7 @@ var LoginForm = React.createClass({
   
   getInitialState: function() {
     return {
-      username: 'test@test.com',
+      username: 'pubber',
       password: '123456',
       showPwdHelpSpan: false,
       showUsernameHelpSpan: false,
