@@ -8,6 +8,7 @@ exports.addPubbee = function(req, res) {
   var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
   var workflow = req.app.utility.workflow(req, res);
+  var emqttManager = req.app.utility.emqttManager;
 
   workflow.on('validate', function() {
     //TODO: consider permission
@@ -32,11 +33,11 @@ exports.addPubbee = function(req, res) {
       }
 
       Topic.create({topic: topic}).then(function(topic) {
-        user.addPubbee(topic);
-        //TODO: consider if addSubbee here
-        //user.addSubbee(topic);
-        workflow.outcome.data = {user: user, topic: topic};
-        return workflow.emit('response');
+        emqttManager.addAclPermission(user.username, "publish", topic.topic, function() {
+          user.addPubbee(topic);
+          workflow.outcome.data = {user: user, topic: topic};
+          return workflow.emit('response');
+        });
       });
     });    
   });
@@ -85,9 +86,10 @@ exports.getPubbees = function(req, res) {
 exports.addSubbee = function(req, res) {
   var userId = req.body.userId;
   var topicId = req.body.topicId;
-  var workflow = req.app.utility.workflow(req, res);
   var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
+  var workflow = req.app.utility.workflow(req, res);
+  var emqttManager = req.app.utility.emqttManager;
 
   workflow.on('validate', function() {
     //TODO: consider permission
@@ -111,12 +113,13 @@ exports.addSubbee = function(req, res) {
       }
 
       Topic.findOne({where: {id: topicId}}).then(function(topic) {
-        user.addSubbee(topic);
-        workflow.outcome.data = {user: user, topic: topic};
-        return workflow.emit('response');
+        emqttManager.addAclPermission(user.username, "subscribe", topic.topic, function() {
+          user.addSubbee(topic);
+          workflow.outcome.data = {user: user, topic: topic};
+          return workflow.emit('response');
+        });
       });
     });    
-  
   });
 
   workflow.emit('validate');

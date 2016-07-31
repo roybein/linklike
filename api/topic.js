@@ -5,9 +5,10 @@ var logger = require('tracer').colorConsole();
 exports.addPubber = function(req, res) {
   var topicId = req.body.topicId;
   var userId = req.body.userId;
-  var workflow = req.app.utility.workflow(req, res);
   var Topic = req.app.db.models.Topic;
   var User = req.app.db.models.User;
+  var workflow = req.app.utility.workflow(req, res);
+  var emqttManager = req.app.utility.emqttManager;
 
   workflow.on('validate', function() {
     //TODO: validate
@@ -25,8 +26,10 @@ exports.addPubber = function(req, res) {
           workflow.outcome.errors.push('invalid userId');
           return workflow.emit('response');
         }
-        topic.addPubber(user);
-        return workflow.emit('response');
+        emqttManager.addAclPermission(user.username, "publish", topic.topic, function() {
+          topic.addPubber(user);
+          return workflow.emit('response');
+        });
       });
     });
   });

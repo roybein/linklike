@@ -27,7 +27,7 @@ app.set('view engine', 'jade');
 
 // models
 app.db = require('./models/models.js');
-app.db.sequelize.sync().then(function() {
+app.db.sequelize.sync({force: true}).then(function() {
   logger.trace("sequelize sync done");
 });
 
@@ -114,7 +114,8 @@ app.utility = {};
 app.utility.sendmail = require('./utils/sendmail');
 app.utility.slugify = require('./utils/slugify');
 app.utility.workflow = require('./utils/workflow');
-app.utility.redis = new ioredis();
+app.utility.redis = new ioredis(app.config.redis.port, app.config.redis.host);
+logger.trace("redis", app.config.redis.host + ":" + app.config.redis.port);
 app.utility.emqttManager = require('./utils/emqttManager/emqttManager.js');
 app.utility.emqttManager.init(app.config.emqtt.uri, app.utility.redis);
 

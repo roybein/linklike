@@ -47,6 +47,7 @@ var emqttManager = {
   },
 
   addAclPermission: function(username, action, topic, callback) {
+    logger.trace(username, action, topic, callback);
     this.emqtt_redis.sadd(("mqtt_acl:" + username), (action + " " + topic)).then( function() {
       logger.trace("addAclPermission", username, action, topic);
       callback();

@@ -1,6 +1,10 @@
 'use strict';
 
 exports.port = process.env.PORT || 4000;
+exports.redis = {
+  host: process.env.REDIS_HOST || '127.0.0.1',
+  port: process.env.REDIS_PORT || 6379
+};
 exports.mongodb = {
   uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/linkgo'
 };

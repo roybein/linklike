@@ -13,6 +13,7 @@ exports.init = function(req, res){
 
 exports.signup = function(req, res){
   var workflow = req.app.utility.workflow(req, res);
+  var emqttManager = req.app.utility.emqttManager;
 
   workflow.on('validate', function() {
     if (!req.body.username) {
@@ -81,7 +82,10 @@ exports.signup = function(req, res){
       req.app.db.models.User.create(fieldsToSet).then(function() {
         //workflow.user = user;
         //workflow.emit('createAccount');
-        workflow.emit('logUserIn');
+        //TODO: use hash password for product
+        emqttManager.addUser(req.body.username, req.body.password, function() {
+          workflow.emit('logUserIn');
+        });
       });
     });
   });
