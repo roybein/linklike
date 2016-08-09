@@ -1,5 +1,7 @@
 'use strict';
 
+var logger = require('tracer').colorConsole();
+
 exports.init = function(req, res){
   res.render('signup/signup', {
     oauthMessage: '',
@@ -12,6 +14,7 @@ exports.init = function(req, res){
 };
 
 exports.signup = function(req, res){
+  logger.debug(req.body);
   var workflow = req.app.utility.workflow(req, res);
   var emqttManager = req.app.utility.emqttManager;
 

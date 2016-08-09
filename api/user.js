@@ -3,6 +3,7 @@
 var logger = require('tracer').colorConsole();
 
 exports.addPubbee = function(req, res) {
+  logger.debug(req.body);
   var userId = req.body.userId;
   var topic = req.body.topic;
   var Topic = req.app.db.models.Topic;
