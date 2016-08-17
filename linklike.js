@@ -27,7 +27,7 @@ app.set('view engine', 'jade');
 
 // models
 app.db = require('./models/models.js');
-app.db.sequelize.sync({force: true}).then(function() {
+app.db.sequelize.sync({}).then(function() {
   logger.trace("sequelize sync done");
 });
 

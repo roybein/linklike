@@ -15,6 +15,8 @@ var sequelize = new Sequelize('linklikedb', 'roybein', 'public', {
 db.models.User = sequelize.import('./User.js');
 db.models.LoginAttempt = sequelize.import('./LoginAttempt.js');
 db.models.Topic = sequelize.import('./Topic.js');
+db.models.nodeRed = {};
+db.models.nodeRed.Flow = sequelize.import('./node-red/Flow.js');
 
 db.models.Topic.belongsToMany(db.models.User, { as: 'Pubbers', through: 'publish'});
 db.models.User.belongsToMany(db.models.Topic, { as: 'Pubbees', through: 'publish'});
