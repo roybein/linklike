@@ -1,7 +1,7 @@
 'use strict';
 
 var getReturnUrl = function(req) {
-  var returnUrl = '/';
+  var returnUrl = 'http://localhost:1880';
   if (req.session.returnUrl) {
     returnUrl = req.session.returnUrl;
     delete req.session.returnUrl;

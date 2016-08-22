@@ -1,6 +1,9 @@
 'use strict';
 
 var logger = require('tracer').colorConsole();
+var spawn = require('child_process').spawn;
+var redList = {};
+var redIndex = 1;
 
 exports.init = function(req, res){
   res.render('signup/signup', {
@@ -87,9 +90,29 @@ exports.signup = function(req, res){
         //workflow.emit('createAccount');
         //TODO: use hash password for product
         emqttManager.addUser(req.body.username, req.body.password, function() {
-          workflow.emit('logUserIn');
+          // workflow.emit('logUserIn');
+          workflow.emit('createNodeRed');
         });
       });
+    });
+  });
+
+  workflow.on('createNodeRed', function() {
+    var port = 1880 + redIndex;
+    redIndex++;
+    process.env.PORT = port;
+    var red = redList[req.body.username] = spawn('node', ['/Users/roybein/space/github/linkgo/node-red/red.js']);
+    red.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+      // logger.info(data);
+    });
+    red.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+      // logger.error(data);
+    });
+    red.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
+      // logger.info("child process exited with code", code);
     });
   });
 
